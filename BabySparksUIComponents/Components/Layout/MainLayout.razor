@@ -1,22 +1,18 @@
 ﻿@inherits LayoutComponentBase
 @inject AppState AppState
 
-@if (AppState.IsAuthenticated)
-{
+
     <div class="page">
+    @if (AppState.IsAuthenticated)
+    {
         <div class="sidebar">
             <NavMenu />
         </div>
-
+    }
         <main>
             <article class="content px-4">
                 @Body
             </article>
         </main>
     </div>
-}
-else
-{
-    <Login></Login>
-}
 

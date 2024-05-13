@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BabySparksUIComponents.Components.Layout
+namespace BabySparksUIComponents.Components.Pages
 {
     public partial class Login : ComponentBase
     {
