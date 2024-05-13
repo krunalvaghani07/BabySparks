@@ -1,12 +1,20 @@
 using BabySparksWebApp.Components;
+using BabySparksSharedClassLibrary.ServiceProvider;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+.AddInteractiveServerComponents();
+
+AppState appState = new();
+appState.IsWeb = true;
+builder.Services.AddSingleton<AppState>(appState);
+
 
 var app = builder.Build();
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

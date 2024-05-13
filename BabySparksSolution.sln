@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySparksMauiApp", "BabySp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySparksUIComponents", "BabySparksUIComponents\BabySparksUIComponents.csproj", "{C22D5349-EFC1-4A31-AB7E-6D7050631243}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabySparksWebApp", "BabySparksWebApp\BabySparksWebApp.csproj", "{2D29F82F-808D-4442-A703-CF46ECD25D34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySparksWebApp", "BabySparksWebApp\BabySparksWebApp.csproj", "{2D29F82F-808D-4442-A703-CF46ECD25D34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabySparksSharedClassLibrary", "BabySparksSharedClassLibrary\BabySparksSharedClassLibrary.csproj", "{EE31AF80-BCC2-4648-A0C0-D4A3B98EC1B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{2D29F82F-808D-4442-A703-CF46ECD25D34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D29F82F-808D-4442-A703-CF46ECD25D34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D29F82F-808D-4442-A703-CF46ECD25D34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE31AF80-BCC2-4648-A0C0-D4A3B98EC1B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE31AF80-BCC2-4648-A0C0-D4A3B98EC1B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE31AF80-BCC2-4648-A0C0-D4A3B98EC1B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE31AF80-BCC2-4648-A0C0-D4A3B98EC1B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

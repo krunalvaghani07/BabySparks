@@ -66,6 +66,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\BabySparksSharedClassLibrary\BabySparksSharedClassLibrary.csproj" />
       <ProjectReference Include="..\BabySparksUIComponents\BabySparksUIComponents.csproj" />
     </ItemGroup>
 

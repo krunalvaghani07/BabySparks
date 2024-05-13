@@ -16,4 +16,8 @@
     <PackageReference Include="Radzen.Blazor" Version="4.31.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BabySparksSharedClassLibrary\BabySparksSharedClassLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

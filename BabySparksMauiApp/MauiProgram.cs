@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BabySparksSharedClassLibrary.ServiceProvider;
+using Microsoft.Extensions.Logging;
 
 namespace BabySparksMauiApp
 {
@@ -13,6 +14,10 @@ namespace BabySparksMauiApp
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
+
+            AppState appState = new();
+            appState.IsDesktop = true;
+            builder.Services.AddSingleton<AppState>(appState);
 
             builder.Services.AddMauiBlazorWebView();
 

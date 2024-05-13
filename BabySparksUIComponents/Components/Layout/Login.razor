@@ -1,0 +1,39 @@
+﻿@page "/login"
+
+<EditForm Model=@user OnSubmit=@LoginFormSubmitted>
+    <div class="card">
+        <div class="card-header">
+            Login
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <label for="email" class="col-sm-4 col-form-label">
+                    Email
+                </label>
+                <div class="col-sm-8">
+                    <InputText id="email" class="form-control" placeholder="Email Address"
+                               @bind-Value="user.Email" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-sm-4 col-form-label">
+                    Password
+                </label>
+                <div class="col-sm-8">
+                    <InputText id="password" class="form-control" placeholder="Password"
+                               @bind-Value="user.Password" />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="cpassword" class="col-sm-4 col-form-label">
+                    Confirm Password
+                </label>
+                <div class="col-sm-8">
+                    <InputText id="cpassword" class="form-control" placeholder="Confirm Password"
+                               @bind-Value="user.ConfirmPassword" />
+                </div>
+            </div>
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </div>  
+</EditForm>
