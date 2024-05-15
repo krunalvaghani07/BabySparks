@@ -1,17 +1,49 @@
 ﻿using BabySparksSharedClassLibrary.Models;
+using BabySparksSharedClassLibrary.ServiceProvider;
+using Firebase.Auth;
 using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Input;
 
 namespace BabySparksUIComponents.Components.Pages
 {
     public partial class SignUp : ComponentBase
     {
-        User user = new User();
-        void SignUpFormSubmitted()
+        [SupplyParameterFromForm]
+        BabySparksSharedClassLibrary.Models.User user { get; set; }
+        [Inject]
+        FirebaseAuthClient _authClient {  get; set; }
+        [Inject]
+        NavigationManager Navigation { get; set; }
+        [Inject]
+        AppState AppState { get; set; }
+        protected override void OnInitialized() => user ??= new();
+        async Task SignUpFormSubmitted()
         {
-            // Post data to the server, etc
+            if(user.Password.Trim() != user.ConfirmPassword.Trim())
+            {
+
+            }
+            else
+            {
+                try
+                {
+                    await _authClient.CreateUserWithEmailAndPasswordAsync(user.Email, user.Password);
+                    AppState.IsAuthenticated = true;
+                    Navigation.NavigateTo("/counter",true);
+                    await base.OnInitializedAsync();
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+                
+            }
+            
         }
     }
 }
