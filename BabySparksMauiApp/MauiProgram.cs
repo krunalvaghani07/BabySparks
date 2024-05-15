@@ -1,4 +1,6 @@
 ﻿using BabySparksSharedClassLibrary.ServiceProvider;
+using Firebase.Auth;
+using Firebase.Auth.Providers;
 using Microsoft.Extensions.Logging;
 
 namespace BabySparksMauiApp
@@ -25,6 +27,16 @@ namespace BabySparksMauiApp
     		builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Logging.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
+            {
+                ApiKey = "AIzaSyCZuo4e0rGf0Uj_n3A8cZutFEhZkH61VSw",
+                AuthDomain = "babysparks-e2b75.firebaseapp.com",
+                Providers = new Firebase.Auth.Providers.FirebaseAuthProvider[]
+                {
+                    new EmailProvider()
+                }
+            }));
 
             return builder.Build();
         }

@@ -33,7 +33,7 @@ namespace BabySparksUIComponents.Components.Pages
                 {
                     await _authClient.CreateUserWithEmailAndPasswordAsync(user.Email, user.Password);
                     AppState.IsAuthenticated = true;
-                    Navigation.NavigateTo("/counter",true);
+                    Navigation.NavigateTo("/",true);
                     await base.OnInitializedAsync();
 
                 }
