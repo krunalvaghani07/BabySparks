@@ -1,6 +1,7 @@
 ﻿@page "/login"
+@layout BabySparksUIComponents.Components.Layout.AuthLayout
 
-<EditForm Model=@user OnSubmit=@LoginFormSubmitted>
+<EditForm Model=@user OnSubmit=@LoginFormSubmitted FormName="loginform">
     <div class="card">
         <div class="card-header">
             Login

@@ -1,18 +1,31 @@
 ﻿@inherits LayoutComponentBase
 @inject AppState AppState
+@inject NavigationManager navigationManager
+@inject StateProvider authStateProvider
 
-
+<Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
     <div class="page">
-    @if (AppState.IsAuthenticated)
-    {
+
         <div class="sidebar">
             <NavMenu />
         </div>
-    }
         <main>
             <article class="content px-4">
                 @Body
             </article>
         </main>
     </div>
+</Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
+@code{
+    [CascadingParameter]
+    Task<AuthenticationState> AuthenticationState { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!(await AuthenticationState).User.Identity.IsAuthenticated)
+        {
+            navigationManager.NavigateTo("/login");
+        }
+    }
+}
 

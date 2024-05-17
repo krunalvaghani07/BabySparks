@@ -18,11 +18,7 @@ namespace BabySparksUIComponents.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            if (!AppState.IsAuthenticated)
-            {
-                Navigation.NavigateTo("login",true);
-            }
-            await base.OnInitializedAsync();
+            
         }
     }
 }
