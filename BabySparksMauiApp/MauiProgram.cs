@@ -1,4 +1,6 @@
-﻿using BabySparksSharedClassLibrary.ServiceProvider;
+﻿using BabySparksMauiApp.Service;
+using BabySparksSharedClassLibrary.IServices;
+using BabySparksSharedClassLibrary.ServiceProvider;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Microsoft.Extensions.Logging;
@@ -21,6 +23,7 @@ namespace BabySparksMauiApp
             appState.IsDesktop = true;
             builder.Services.AddSingleton<AppState>(appState);
 
+            builder.Services.AddSingleton<IStorageService, StorageService>();
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG

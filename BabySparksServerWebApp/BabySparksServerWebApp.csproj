@@ -15,4 +15,8 @@
     <ProjectReference Include="..\BabySparksUIComponents\BabySparksUIComponents.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
+
 </Project>

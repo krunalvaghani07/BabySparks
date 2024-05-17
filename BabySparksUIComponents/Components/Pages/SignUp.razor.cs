@@ -13,17 +13,17 @@ namespace BabySparksUIComponents.Components.Pages
     public partial class SignUp : ComponentBase
     {
         [SupplyParameterFromForm]
-        BabySparksSharedClassLibrary.Models.User user { get; set; }
+        BabySparksSharedClassLibrary.Models.User? user { get; set; }
         [Inject]
-        FirebaseAuthClient _authClient {  get; set; }
+        FirebaseAuthClient? _authClient {  get; set; }
         [Inject]
-        NavigationManager Navigation { get; set; }
+        NavigationManager? Navigation { get; set; }
         [Inject]
-        AppState AppState { get; set; }
+        AppState? AppState { get; set; }
         protected override void OnInitialized() => user ??= new();
         async Task SignUpFormSubmitted()
         {
-            if(user.Password.Trim() != user.ConfirmPassword.Trim())
+            if(user?.Password.Trim() != user?.ConfirmPassword.Trim())
             {
 
             }
@@ -31,15 +31,15 @@ namespace BabySparksUIComponents.Components.Pages
             {
                 try
                 {
-                    await _authClient.CreateUserWithEmailAndPasswordAsync(user.Email, user.Password);
+                    await _authClient.CreateUserWithEmailAndPasswordAsync(user?.Email, user?.Password);
                     AppState.IsAuthenticated = true;
-                    Navigation.NavigateTo("/",true);
+                    Navigation?.NavigateTo("/",true);
                     await base.OnInitializedAsync();
 
                 }
                 catch (Exception ex)
                 {
-
+                    Console.WriteLine(ex.Message.ToString());
                 }
                 
             }
