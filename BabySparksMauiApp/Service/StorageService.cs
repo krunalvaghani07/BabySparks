@@ -21,12 +21,12 @@ namespace BabySparksMauiApp.Service
             Preferences.Remove(key);
         }
 
-        public bool Exists(string key)
+        public Task<bool> Exists(string key)
         {
-            return Preferences.ContainsKey(key);
+            return Task.FromResult(Preferences.ContainsKey(key));
         }
 
-        public T GetValue<T>(string key)
+        public async Task<T> GetValue<T>(string key)
         {
             T UnpackedValue = default;
             string keyvalue = Preferences.Get(key, string.Empty);

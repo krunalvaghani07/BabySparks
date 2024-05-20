@@ -11,9 +11,9 @@ namespace BabySparksSharedClassLibrary.IServices
     {
         public void SetValue(string key, object value);
 
-        public T GetValue<T> (string key);
+        public Task<T> GetValue<T> (string key);
         public void Delete(string key);
-        public bool Exists(string key);
+        public Task<bool> Exists(string key);
         public void ClearAll();
 
     }
