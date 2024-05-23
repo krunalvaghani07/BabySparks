@@ -24,7 +24,7 @@ namespace BabySparksSharedClassLibrary.ServiceProvider
 
             try
             {
-                if (_localStorage.Exists("user"))
+                if (await _localStorage.Exists("user"))
                 {
                     var _userId =  _localStorage.GetValue<User>("user");
 
@@ -33,13 +33,17 @@ namespace BabySparksSharedClassLibrary.ServiceProvider
                             new Claim(ClaimTypes.Role, "Basic User")
                         };
                     identity = new ClaimsIdentity(claims, "authentication");
-                    return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
-
                 }
+                return await Task.FromResult(new AuthenticationState(new ClaimsPrincipal(identity)));
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine("Request failed:" + ex.ToString());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Request failed:" + ex.ToString());
+
             }
             AuthenticationState authState = new AuthenticationState(new ClaimsPrincipal(identity));
             return authState;

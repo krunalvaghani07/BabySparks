@@ -4,6 +4,11 @@ using Firebase.Auth.Providers;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
+using BabySparksSharedClassLibrary.IServices;
+using BabySparksServerWebApp.Service;
+using Blazored.LocalStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +29,12 @@ builder.Logging.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthCon
                     new EmailProvider()
                 }
 }));
-
+builder.Services.AddScoped<IStorageService, StorageService>();
+builder.Services.AddAuthenticationCore();
+builder.Services.AddBlazoredLocalStorage();
+builder.Services.AddScoped<ProtectedSessionStorage>();
+builder.Services.AddScoped<StateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider, StateProvider>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySparksUIComponents", "B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySparksSharedClassLibrary", "BabySparksSharedClassLibrary\BabySparksSharedClassLibrary.csproj", "{EE31AF80-BCC2-4648-A0C0-D4A3B98EC1B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BabySparksServerWebApp", "BabySparksServerWebApp\BabySparksServerWebApp.csproj", "{3054AD92-4660-471E-84FF-1F6E4F4CE46F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BabySparksServerWebApp", "BabySparksServerWebApp\BabySparksServerWebApp.csproj", "{3054AD92-4660-471E-84FF-1F6E4F4CE46F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
