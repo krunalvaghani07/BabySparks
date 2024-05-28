@@ -41,7 +41,7 @@ namespace BabySparksUIComponents.Components.Pages
                     AppState.IsAuthenticated = true;
                     storageService.SetValue("user", user);
                     authStateProvider.ManageUser();
-                    Navigation?.NavigateTo("/",true);
+                    Navigation?.NavigateTo("/register", true);
                     await base.OnInitializedAsync();
 
                 }
