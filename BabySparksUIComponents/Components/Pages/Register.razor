@@ -1,39 +1,71 @@
 ﻿@page "/register"
 
 <div class="container">
-    <div class="header">
-        <h3>Tell us Something About Yourself</h3>
-    </div>
-    <div class="subheader">
-        <p>Are You?</p>
-    </div>
-    <div class="options">
-        <ul>
-            <li>
-                <input type="radio" name="userType" id="daycare" value="Day Care" @onchange="HandleSelection"  />
-                <label for="daycare">
-                    <img src="/_content/BabySparksUIComponents/images/daycare.svg" alt="Day Care" />
-                    <span>Day Care</span>
-                </label>
-            </li>
-            <li>
-                <input type="radio" name="userType" id="parent" value="Parent" @onchange="HandleSelection"  />
-                <label for="parent">
-                    <img src="/_content/BabySparksUIComponents/images/parent.svg" alt="Parent" />
-                    <span>Parent</span>
-                </label>
-            </li>
-            <li>
-                <input type="radio" name="userType" id="nanny" value="Nanny" @onchange="HandleSelection" />
-                <label for="nanny">
-                    <img src="/_content/BabySparksUIComponents/images/nanylogo.svg" alt="Nanny" />
-                    <span>Nanny</span>
-                </label>
-            </li>
-        </ul>
-    </div>
-    <div class="button-container">
-        <button class="btn btn-primary" @onclick="OnNextClick">Next</button>
-    </div>
+    @if (!IsRoleSelected)
+    {
+        <div class="header">
+            <h3>Tell us Something About Yourself</h3>
+        </div>
+        <div class="subheader">
+            <p>Are You?</p>
+        </div>
+        <div class="options">
+            <ul>
+                <li>
+                    <input type="radio" name="userType" id="daycare" value="Day Care" @onchange="HandleSelection" />
+                    <label for="daycare">
+                        <img src="/_content/BabySparksUIComponents/images/daycare.svg" alt="Day Care" />
+                        <span>Day Care</span>
+                    </label>
+                </li>
+                <li>
+                    <input type="radio" name="userType" id="parent" value="Parent" @onchange="HandleSelection" />
+                    <label for="parent">
+                        <img src="/_content/BabySparksUIComponents/images/parent.svg" alt="Parent" />
+                        <span>Parent</span>
+                    </label>
+                </li>
+                <li>
+                    <input type="radio" name="userType" id="nanny" value="Nanny" @onchange="HandleSelection" />
+                    <label for="nanny">
+                        <img src="/_content/BabySparksUIComponents/images/nanylogo.svg" alt="Nanny" />
+                        <span>Nanny</span>
+                    </label>
+                </li>
+            </ul>
+        </div>
+        <div class="button-container">
+            <button class="btn btn-primary" @onclick="OnNextClick">Next</button>
+        </div>
+    }
+    else
+    {
+        <form>
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <label for="name" class="float-left formlabel">Name</label>
+                    <input type="text" class="form-control" id="name" placeholder="Enter your Name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <label for="address" class="formlabel">Address</label>
+                    <input type="text" class="form-control" id="address" placeholder="Enter your Address">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <label for="phone" class="formlabel">Phone</label>
+                    <input type="text" class="form-control" id="phone" placeholder="Enter your Phone">
+                </div>
+            </div>
+            <div class="text-center row" style="margin-top : 20px;">
+                <div class="form-group col-md-4 offset-md-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </form>
+    }
+
 </div>
 

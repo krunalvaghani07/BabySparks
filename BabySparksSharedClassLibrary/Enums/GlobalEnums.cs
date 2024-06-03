@@ -12,4 +12,10 @@ namespace BabySparksSharedClassLibrary.Enums
         Female,
         Other
     }
+    public enum UserType
+    {
+        DayCare,
+        Parent,
+        Nanny
+    }
 }

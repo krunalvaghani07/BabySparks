@@ -8,6 +8,7 @@ namespace BabySparksUIComponents.Components.Pages
     public partial class Register : ComponentBase
     {
         private string selectedValue;
+        private bool IsRoleSelected;
 
         private void OnNextClick()
         {
@@ -15,6 +16,8 @@ namespace BabySparksUIComponents.Components.Pages
             {
                 // Handle the selected value (e.g., navigate to another page or display a message)
                 Console.WriteLine($"Selected value: {selectedValue}");
+                IsRoleSelected = true;
+                StateHasChanged();
             }
             else
             {

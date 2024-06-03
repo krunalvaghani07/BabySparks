@@ -27,6 +27,9 @@ namespace BabySparksUIComponents.Components.Pages
             try
             {
                 await _authClient.SignInWithEmailAndPasswordAsync(user.Email, user.Password);
+                AppState.user = new BabySparksSharedClassLibrary.Models.User();
+                user.Id = _authClient.User.Uid;
+                AppState.user.Id = _authClient.User.Uid;
                 AppState.IsAuthenticated = true;
                 storageService.SetValue("user", user);
                 authStateProvider.ManageUser();
