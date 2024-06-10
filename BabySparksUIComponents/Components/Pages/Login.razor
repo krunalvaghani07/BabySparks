@@ -1,9 +1,12 @@
 ﻿@page "/login"
 @layout BabySparksUIComponents.Components.Layout.AuthLayout
 
-<div class="login-background">
-    <EditForm Model=@user OnSubmit=@LoginFormSubmitted FormName="loginform" class="login-form">
-        <h2>Welcome Login</h2>
+<div class="login-container">
+    <div class="logo">
+        <img src="/_content/BabySparksUIComponents/images/appicon.png" alt="App Icon" />
+    </div>
+    <h2 class="title">Welcome</h2>
+    <EditForm Model=@user OnSubmit=@LoginFormSubmitted class="login-form">
         <div class="form-group">
             <div class="input-container">
                 <InputText id="email" class="form-control" placeholder="Email Address" @bind-Value="user.Email" />
@@ -16,23 +19,10 @@
                 <span class="tooltip">Enter your password</span>
             </div>
         </div>
-        <input type="submit" value="Login" class="btn btn-primary" />
+        <input type="submit" value="Login" class="btn btn-primary login-btn" />
         <div class="register-container">
             Don't have an account?
             <a href="/signup" class="register-link">Register</a>
-            <span class="tooltip">Welcome new user! Create your account here.</span>
-        </div>
-
-        <div class="social-login">
-            <!-- Facebook login button -->
-            <button type="button" class="btn btn-facebook" onclick="loginWithFacebook()">
-                <i class="fab fa-facebook-f"></i> Login with Facebook
-            </button>
-            <br />
-            <!-- Instagram login button -->
-            <button type="button" class="btn btn-instagram" onclick="loginWithInstagram()">
-                <i class="fab fa-instagram"></i> Login with Instagram
-            </button>
         </div>
     </EditForm>
 </div>

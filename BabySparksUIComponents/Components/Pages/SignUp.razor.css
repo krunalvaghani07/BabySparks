@@ -1,102 +1,121 @@
-﻿body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
+﻿html, body {
     height: 100%;
-    overflow: hidden; /* Prevents scrollbars */
+    margin: 0;
+    font-family: 'Arial', sans-serif;
 }
 
-.signup-background {
-    background-image: url('/_content/BabySparksUIComponents/images/background_image.jpg');
-    background-size: cover; /* Ensures the background image covers the entire container */
-    background-position: center; /* Centers the background image */
-    background-repeat: no-repeat; /* Prevents the background image from repeating */
-    position: fixed; /* Keeps the background fixed in place */
-    top: 0;
-    left: 0;
-    width: 100vw; /* Ensures the background covers the full width of the viewport */
-    height: 100vh; /* Ensures the background covers the full height of the viewport */
+body {
     display: flex;
-    align-items: center; /* Centers the form vertically */
-    justify-content: center; /* Centers the form horizontally */
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2; /* Optional: Background color for the page */
+    padding: 0 20px; /* Add padding to prevent the form from touching the screen edges on smaller devices */
 }
 
-.signup-form h2 {
-    margin-bottom: 20px; /* Adds space between the welcome message and the form fields */
-    background: linear-gradient(135deg, #163A96, #9B12CC);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-fill-color: transparent;
-    color: transparent;
+.signup-container {
+    max-width: 400px;
+    margin: auto;
+    padding: 20px;
     text-align: center;
-    padding-bottom:20px;
+    font-family: 'Arial', sans-serif;
 }
 
-.form-group {
+.logo img {
+    max-width: 300px; /* Adjust the size to be more responsive */
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 24px;
+    color: #ff66b2;
+    margin-bottom: 20px;
+}
+
+.signup-form .form-group {
     margin-bottom: 15px;
-    width: 100%;
+    text-align: left;
+}
+
+.input-container {
+    position: relative;
 }
 
 .form-control {
     width: 100%;
     padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
     font-size: 16px;
-}
-
-.btn-primary {
-    width: 60%;
-   
-    font-size: 16px;
-    cursor: pointer;
-    background: linear-gradient(135deg, #163A96, #9B12CC);
-    margin: 0 auto;
-    display: block;
-}
-.tooltip-container {
-    position: relative;
-    display: inline-block;
-}
-
-.tooltip-container {
-    position: relative;
-    display: inline-block;
+    margin-bottom: 5px;
 }
 
 .tooltip {
-    visibility: hidden;
-    width: 150px;
-    background: linear-gradient(135deg, #163A96, #9B12CC);
-    color: white;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
+    font-size: 12px;
+    color: #888;
     position: absolute;
-    z-index: 1;
-    bottom: 150%; /* Position the tooltip above the input */
-    left: 50%;
-    margin-left: -75px; /* Center the tooltip */
-    opacity: 0;
-    transition: opacity 0.3s;
+    bottom: -20px;
+    left: 0;
 }
 
-    .tooltip::before {
-        content: attr(title); /* Display the title attribute as the tooltip text */
-        position: absolute;
-        width: 100%;
-        bottom: 100%; /* Position the tooltip above the input */
-        left: 0;
-       
-        color: white;
-        text-align: center;
-        padding: 5px 0;
-        border-radius: 6px;
-        opacity: 0;
-        transition: opacity 0.3s;
+.signup-btn {
+    background-color: #ff66b2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+
+    .signup-btn:hover {
+        background-color: #ff3385;
     }
 
-.tooltip-container:hover .tooltip,
-.tooltip-container:hover .tooltip::before {
-    visibility: visible;
-    opacity: 1;
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .signup-container {
+        padding: 15px;
+    }
+
+    .form-control {
+        font-size: 14px;
+    }
+
+    .signup-btn {
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .tooltip {
+        font-size: 10px;
+    }
+
+    .title {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .signup-container {
+        padding: 10px;
+    }
+
+    .form-control {
+        font-size: 12px;
+    }
+
+    .signup-btn {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .tooltip {
+        font-size: 8px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
 }

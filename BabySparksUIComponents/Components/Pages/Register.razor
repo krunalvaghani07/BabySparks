@@ -1,21 +1,16 @@
 ﻿@page "/register"
+@layout BabySparksUIComponents.Components.Layout.AuthLayout
 
 <div class="container">
     @if (!IsRoleSelected)
     {
-        <div class="header">
-            <h3>Tell us Something About Yourself</h3>
-        </div>
-        <div class="subheader">
-            <p>Are You?</p>
-        </div>
         <div class="options">
             <ul>
                 <li>
                     <input type="radio" name="userType" id="daycare" value="Day Care" @onchange="HandleSelection" />
                     <label for="daycare">
                         <img src="/_content/BabySparksUIComponents/images/daycare.svg" alt="Day Care" />
-                        <span>Day Care</span>
+                        <span>Day Care Provider</span>
                     </label>
                 </li>
                 <li>
@@ -35,7 +30,7 @@
             </ul>
         </div>
         <div class="button-container">
-            <button class="btn btn-primary" @onclick="OnNextClick">Next</button>
+            <button class="btn btn-primary btn-next" @onclick="OnNextClick">Next</button>
         </div>
     }
     else

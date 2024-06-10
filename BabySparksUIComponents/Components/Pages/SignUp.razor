@@ -2,36 +2,33 @@
 @layout BabySparksUIComponents.Components.Layout.AuthLayout
 
 
-<div class="signup-background">
-    <EditForm Model=@user OnValidSubmit=@SignUpFormSubmitted FormName="signupform" class="signup-form">
-        <h2>Welcome SignUP</h2>
-        <div>
-            <div class="form-group">
-                <div class="tooltip-container">
-                    <InputText id="Email" class="form-control" placeholder="Email Address"
-                               @bind-Value="user.Email" />
-                    <span class="tooltip">Enter your email</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="tooltip-container">
-                    <InputText id="Password" class="form-control" placeholder="Password"
-                               @bind-Value="user.Password" />
-                    <span class="tooltip">Enter your password</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="tooltip-container">
-                    <InputText id="ConfirmPassword" class="form-control" placeholder="Confirm Password"
-                               @bind-Value="user.ConfirmPassword" />
-                    <span class="tooltip">Confirm your password</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-primary" />
-            </div>
+<div style="display: flex; justify-content: center; align-items: center;  width: 100%; padding: 0 20px; font-family: 'Arial', sans-serif;">
+    <div style="max-width: 400px; margin: auto; padding: 20px; text-align: center;">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <img src="/_content/BabySparksUIComponents/images/appicon.png" alt="App Icon" style="max-width: 300px;" />
         </div>
-    </EditForm>
+        <h2 style="font-size: 24px; color: #ff66b2; margin-bottom: 20px;">Welcome Sign Up</h2>
+        <EditForm Model=@user OnValidSubmit=@SignUpFormSubmitted class="signup-form">
+            <div class="form-group" style="margin-bottom: 15px; text-align: left;">
+                <div style="position: relative;">
+                    <InputText id="email" class="form-control" placeholder="Email Address" @bind-Value="user.Email" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-bottom: 5px;" />
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 15px; text-align: left;">
+                <div style="position: relative;">
+                    <InputText id="password" type="password" class="form-control" placeholder="Password" @bind-Value="user.Password" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-bottom: 5px;" />
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 15px; text-align: left;">
+                <div style="position: relative;">
+                    <InputText id="confirmPassword" type="password" class="form-control" placeholder="Confirm Password" @bind-Value="user.ConfirmPassword" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-bottom: 5px;" />
+                </div>
+            </div>
+            <input type="submit" value="Register" class="btn btn-primary signup-btn" style="background-color: #ff66b2; color: #fff; border: none; border-radius: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer; margin-top: 10px; width: 100%; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='#ff3385';" onmouseout="this.style.backgroundColor='#ff66b2';" />
+            <div style="margin-top: 20px;">
+                Already have an account?
+                <a href="/login" style="color: #ff66b2; text-decoration: none;">Login</a>
+            </div>
+        </EditForm>
+    </div>
 </div>
-
-

@@ -23,4 +23,10 @@
 		<ProjectReference Include="..\BabySparksSharedClassLibrary\BabySparksSharedClassLibrary.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Update="wwwroot\images\appicon.png">
+	    <Color>#e7b7c0</Color>
+	  </Content>
+	</ItemGroup>
+
 </Project>
