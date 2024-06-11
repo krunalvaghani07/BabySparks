@@ -13,6 +13,8 @@
     <link href="BabySparksServerWebApp.styles.css" rel="stylesheet" />
     <link rel="stylesheet" href="_content/BabySparksUIComponents/css/app.css" />
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
 </head>
 <body>
@@ -31,5 +33,38 @@
 
     <script src="_framework/blazor.server.js"></script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
+    <script src="_content/BabySparksUIComponents/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        function fileCaptureChange() {
+            var file = $("#capturedimage").get(0).files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function () {
+                    base = reader.result;
+                    $("#previewImg").attr("src", reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+            else {
+                var ufile = $("#uploadimage").get(0).files[0];
+                if (ufile) {
+                    var reader = new FileReader();
+
+                    reader.onload = function () {
+                        $("#previewImg").attr("src", reader.result);
+                    }
+
+                    reader.readAsDataURL(ufile);
+                }
+            }
+        }
+        function OpenCamera() {
+            $("#capturedimage").trigger('click');
+        }
+        function UploadImage() {
+            $("#uploadimage").trigger('click');
+        }
+       
+    </script>
 </body>
 </html>

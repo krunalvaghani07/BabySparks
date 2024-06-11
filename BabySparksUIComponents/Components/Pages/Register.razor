@@ -35,32 +35,59 @@
     }
     else
     {
-        <form>
-            <div class="form-row">
-                <div class="form-group col-md-4 offset-md-4">
-                    <label for="name" class="float-left formlabel">Name</label>
-                    <input type="text" class="form-control" id="name" placeholder="Enter your Name">
+        <div class="profile-container">
+            <div class="profile-content">
+                <div class="profile-image-container">
+                    <div class="card-body" style="position: relative; width: 150px; height: 150px; margin-left: auto; margin-right: auto;">
+                        @if (user.ProfileImageUrl != null)
+                        {
+                            <img id="previewImg" src="@user.ProfileImageUrl" style="width: 100%; height: 100%; border-radius: 50%;" />
+                        }
+                        else
+                        {
+                            <img id="previewImg" src="/_content/BabySparksUIComponents/images/profile.png" style="width: 100%; height: 100%; border-radius: 50%;" />
+                        }
+                        <InputFile accept="image/*" OnChange="HandleFileSelected" id="capturedimage" style="display:none;" capture />
+                        <InputFile accept="image/*" OnChange="HandleFileSelected" id="uploadimage" style="display:none;" />
+                        <button class="btn btn-secondary" id="captureimageicon" type="button" @onclick="()=>OpenCamera()" style="position: absolute; bottom: 10px; right: 10px; border-radius: 50%; padding: 10px;">
+                            <span class="fa fa-camera fa-lg"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <InputText class="form-control" id="name" placeholder="Enter your Name" @bind-Value="user.Name" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <InputText class="form-control" id="phone" placeholder="Enter your Phone" @bind-Value="user.PhoneNumber" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <InputText class="form-control" id="address" placeholder="Enter your Address" @bind-Value="user.Address" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <InputText class="form-control" id="city" placeholder="Enter your City" @bind-Value="user.City" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <InputText class="form-control" id="zCode" placeholder="Enter your Zip Code" @bind-Value="user.PinCode" />
+                    </div>
+                </div>
+                <div class="text-center row" style="margin-top : 20px;">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input type="submit" value="Register" class="btn btn-primary submit-btn" />
+                    </div>
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-group col-md-4 offset-md-4">
-                    <label for="address" class="formlabel">Address</label>
-                    <input type="text" class="form-control" id="address" placeholder="Enter your Address">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-4 offset-md-4">
-                    <label for="phone" class="formlabel">Phone</label>
-                    <input type="text" class="form-control" id="phone" placeholder="Enter your Phone">
-                </div>
-            </div>
-            <div class="text-center row" style="margin-top : 20px;">
-                <div class="form-group col-md-4 offset-md-4">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </form>
-    }
+        </div>
+    }   
 
 </div>
 
