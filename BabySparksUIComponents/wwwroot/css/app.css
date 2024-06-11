@@ -84,3 +84,61 @@ h1:focus {
         padding-left: env(safe-area-inset-left);
     }
 }
+
+/* Add this CSS to your component's style block or external stylesheet */
+
+.header-container {
+    position: relative;
+}
+
+.header {
+    background-color: #ff6f61;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    border-bottom-left-radius: 10%;
+    border-bottom-right-radius: 10%;
+}
+
+    .header img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+    }
+
+.search-bar {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -20px;
+    z-index: 2;
+    width: calc(100% - 40px);
+    padding: 0 20px;
+}
+
+    .search-bar input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 25px;
+        border: none;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+
+.section {
+    padding: 20px;
+}
+
+/* Responsive Styling */
+@media only screen and (max-width: 768px) {
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .header p {
+        font-size: 14px;
+    }
+}

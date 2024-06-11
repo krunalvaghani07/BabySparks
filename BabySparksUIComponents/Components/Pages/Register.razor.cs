@@ -1,4 +1,6 @@
-﻿using BabySparksSharedClassLibrary.Models;
+﻿using BabySparksSharedClassLibrary.IServices;
+using BabySparksSharedClassLibrary.Models;
+using BabySparksSharedClassLibrary.ServiceProvider;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -15,6 +17,12 @@ namespace BabySparksUIComponents.Components.Pages
         private User user = new User();
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
+        [Inject]
+        NavigationManager? Navigation { get; set; }
+        [Inject]
+        AppState? AppState { get; set; }
+        [Inject]
+        IStorageService storageService { get; set; }
 
         private void OnNextClick()
         {
@@ -59,6 +67,28 @@ namespace BabySparksUIComponents.Components.Pages
         private async void UploadImage()
         {
             await JSRuntime.InvokeAsync<Object>("UploadImage");
+        }
+        async Task RegisterUser()
+        {
+            if (IsRoleSelected)
+            {
+                switch (selectedValue)
+                {
+                    case "Day Care":
+                        AppState.user.userType = BabySparksSharedClassLibrary.Enums.UserType.DayCare;
+                        break;
+                    case "Parent":
+                        AppState.user.userType = BabySparksSharedClassLibrary.Enums.UserType.Parent;
+                        break;
+                    case "Nanny":
+                        AppState.user.userType = BabySparksSharedClassLibrary.Enums.UserType.Nanny;
+                        break;
+                }
+                storageService.SetValue("user", user);
+                Navigation?.NavigateTo("/", true);
+                await base.OnInitializedAsync();
+            }
+            
         }
     }
 }

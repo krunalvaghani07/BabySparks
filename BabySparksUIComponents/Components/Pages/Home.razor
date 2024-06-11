@@ -1,5 +1,8 @@
 ﻿@page "/"
+@layout BabySparksUIComponents.Components.Layout.MainLayout
 
-<h1>Hello, world! From Krunal</h1>
+@if(AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.Parent)
+{
+    <BabySparksUIComponents.SubComponent.ParentHome></BabySparksUIComponents.SubComponent.ParentHome>
+}
 
-Welcome to your new app.
