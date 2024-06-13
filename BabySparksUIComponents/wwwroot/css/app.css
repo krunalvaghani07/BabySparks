@@ -92,7 +92,7 @@ h1:focus {
 }
 
 .header {
-    background-color: #ff6f61;
+    background-color: #ff7c8c;
     padding: 20px;
     color: white;
     text-align: center;
@@ -141,4 +141,15 @@ h1:focus {
     .header p {
         font-size: 14px;
     }
+}
+
+.tablayoutContainer {
+    margin-top: 30px;
+}
+
+.rz-tabview-top > .rz-tabview-nav li {
+    border-top-width: 2px;
+    border-bottom-color: var(--rz-tabs-tab-background-color);
+    border-radius: var(--rz-tabs-border-radius) var(--rz-tabs-border-radius) 0 0;
+    width: 50%;
 }
