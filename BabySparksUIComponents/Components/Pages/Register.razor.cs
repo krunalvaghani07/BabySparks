@@ -1,12 +1,16 @@
 ﻿using BabySparksSharedClassLibrary.IServices;
 using BabySparksSharedClassLibrary.Models;
 using BabySparksSharedClassLibrary.ServiceProvider;
+using GoogleMapsComponents.Maps.Places;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
+using Radzen.Blazor;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace BabySparksUIComponents.Components.Pages
 {
@@ -24,14 +28,16 @@ namespace BabySparksUIComponents.Components.Pages
         [Inject]
         IStorageService storageService { get; set; }
 
-        private void OnNextClick()
+        private async Task OnNextClick()
         {
             if (!string.IsNullOrEmpty(selectedValue))
             {
                 // Handle the selected value (e.g., navigate to another page or display a message)
                 Console.WriteLine($"Selected value: {selectedValue}");
                 IsRoleSelected = true;
+                
                 StateHasChanged();
+                
             }
             else
             {
@@ -90,5 +96,61 @@ namespace BabySparksUIComponents.Components.Pages
             }
             
         }
+
+        private ElementReference addressBox;
+        private RadzenTextBox? addressBoxRadzenTextBox;
+        private Autocomplete? autocomplete;
+        private string? placeData;
+        private string? formattedAddress;
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (IsRoleSelected)
+            {
+                // convert RadzenTextBox to ElementReference
+                addressBox = addressBoxRadzenTextBox.Element;
+
+                // setup google address auto complete
+                await SetupGoogleAddressAutoComplete();
+            }
+        }
+        private async Task GoogleAddressAutoComplete()
+        {
+
+            System.Threading.Thread.Sleep(500); // this is a hack. with no wait place was null first time
+
+            var place = await this.autocomplete.GetPlace();
+
+            var placeDataTest = JsonSerializer.Serialize(place);
+
+            if (place?.AddressComponents == null)
+            {
+                // this.message = "No results available for " + place?.Name;
+            }
+            else
+            {
+                var placeId = place.PlaceId;
+                var streetNumber = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("street_number"))?.LongName;
+                var street = place.AddressComponents.FirstOrDefault(a => a.Types != null && (a.Types.Contains("route") || a.Types.Contains("street_address")))?.LongName;
+                var city = place.AddressComponents.FirstOrDefault(a => a.Types != null && (a.Types.Contains("locality") || a.Types.Contains("neighborhood")))?.LongName;
+                var state = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("administrative_area_level_1"))?.LongName;
+                var country = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("country"))?.LongName;
+                var postcode = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("postal_code"))?.LongName;
+                formattedAddress = place.FormattedAddress;
+                placeData = JsonSerializer.Serialize(place);
+            }
+        }
+
+        private async Task SetupGoogleAddressAutoComplete()
+        {
+            //    Logger.LogInformation("SetupGoogleAddressAutoComplete called");
+            this.autocomplete = await Autocomplete.CreateAsync(JSRuntime, addressBox, new AutocompleteOptions
+            {
+                StrictBounds = false,
+            });
+
+            //await autocomplete.SetFields(new []{ "address_components", "geometry", "icon", "name" }); , "formatted_Address" formatted_address
+            await this.autocomplete.SetFields(new[] { "address_components", "place_id", "formatted_address" });
+        }
+
     }
 }

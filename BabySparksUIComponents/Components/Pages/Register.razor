@@ -67,7 +67,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4 offset-md-4">
-                        <InputText class="form-control" id="address" placeholder="Enter your Address" @bind-Value="user.Address" />
+                        <RadzenTextBox class="form-control" @ref="addressBoxRadzenTextBox" Name="BusinessAddress1" value="@formattedAddress" Change=@GoogleAddressAutoComplete />
                     </div>
                 </div>
                 <div class="form-row">
@@ -79,6 +79,7 @@
                     <div class="form-group col-md-4 offset-md-4">
                         <InputText class="form-control" id="zCode" placeholder="Enter your Zip Code" @bind-Value="user.PinCode" />
                     </div>
+
                 </div>
                 <div class="text-center row" style="margin-top : 20px;">
                     <div class="form-group col-md-4 offset-md-4">
