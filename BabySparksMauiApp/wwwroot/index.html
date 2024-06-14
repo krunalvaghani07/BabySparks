@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="_content/Radzen.Blazor/css/material-base.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBAH__rVND0zDMcJtum9WWShR04TQENz70&libraries=places"></script>
     <link rel="icon" type="image/png" href="favicon.png" />
 </head>
 
@@ -31,6 +32,7 @@
     <script src="_framework/blazor.webview.js" autostart="false"></script>
     <script src="_content/Radzen.Blazor/Radzen.Blazor.js"></script>
     <script src="_content/BabySparksUIComponents/lib/jquery/dist/jquery.min.js"></script>
+    <script src="_content/BlazorGoogleMaps/js/objectManager.js"></script>
     <script>
         function fileCaptureChange() {
             var file = $("#capturedimage").get(0).files[0];
