@@ -67,7 +67,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-4 offset-md-4">
-                        <RadzenTextBox class="form-control" @ref="addressBoxRadzenTextBox" Name="BusinessAddress1" value="@formattedAddress" Change=@GoogleAddressAutoComplete />
+                        <RadzenTextBox class="form-control" @ref="addressBoxRadzenTextBox" Name="BusinessAddress1" @bind-Value="user.Address" Change=@GoogleAddressAutoComplete />
                     </div>
                 </div>
                 <div class="form-row">

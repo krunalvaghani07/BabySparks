@@ -1,13 +1,11 @@
-﻿@inherits LayoutComponentBase
+﻿@using BabySparksSharedClassLibrary.Models
+@inherits LayoutComponentBase
 @inject AppState AppState
+@inject IStorageService StorageService
 @inject NavigationManager navigationManager
 
 <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
     <div class="page">
-
-        <div class="sidebar">
-            <NavMenu />
-        </div>
         <main>
             <article class="">
                 @Body
@@ -24,6 +22,10 @@
         if (!(await AuthenticationState).User.Identity.IsAuthenticated)
         {
             navigationManager.NavigateTo("/login");
+        }
+        else
+        {
+            AppState.user = await StorageService.GetValue<User>("user");
         }
     }
 }

@@ -1,33 +1,101 @@
-﻿<div class="header-container">
-    <div class="header">
-        <div class="imageheader" style="display : flex; height : 60px;">
-            <div style="width:50px;">
-                <img src="/_content/BabySparksUIComponents/images/parent.svg" alt="Profile Image">
-
-            </div>
-            <div>
-                <h4 style="margin: 10px;">Hello Parent</h4>
-
-            </div>
-        </div>
-        <div class="welcomeheader" style="text-align:left;">
-            <h5>Welcome to BabySparks</h5>
-            <p>Let's find the best daycare for your children</p>
-        </div>
-    </div>
-    <div class="search-bar">
-        <input type="text" placeholder="Search here">
-    </div>
+﻿<div class="search-bar">
+    <input type="text" placeholder="Search here">
 </div>
 
 <div class="tablayoutContainer">
     <RadzenTabs Change=@OnChange TabPosition="@tabPosition" RenderMode="TabRenderMode.Client">
         <Tabs>
             <RadzenTabsItem Text="DayCares">
+                <div class="babysitters-container">
+                    <div class="section-header">
+                        <h2>Babysitters nearby</h2>
+                        <a href="#" class="see-all">See all</a>
+                    </div>
+                    <div class="babysitters-nearby slider">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <div class="profile-card">
+                                <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-image-daycare" />
+                                <div class="profile-info">
+                                    <h3>Building Blocks daycare</h3>
+                                    <p class="location"><i class="fa fa-map-marker"></i> 315 Margaret ave</p>
+                                    <p class="bio">About: provides high quality, flexible child care and early education. Full-time, part-time, back-up for babies, toddlers, preschoolers.</p>
+                                    <div class="profile-actions">
+                                        <button class="view-profile">View profile</button>
+                                        <button class="message">Message</button>
+                                    </div>
+                                </div>
+                                <div class="profile-rating">
+                                    <i class="fa fa-star"></i> 4.1
+                                </div>
+                            </div>
+                        }
 
+                        <!-- Repeat profile-card for more babysitters -->
+                    </div>
+
+                    <div class="section-header">
+                        <h2>Top rated</h2>
+                        <a href="#" class="see-all">See all</a>
+                    </div>
+                    <div class="top-rated">
+                        <div class="profile-list-item">
+                            <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-list-image" />
+                            <div class="profile-list-info">
+                                <h3>Building Blocks daycar </h3><span><i class="fa fa-map-marker"></i> Kitchener</span>
+                                <p class="rating"><i class="fa fa-star"></i> 4.9 / 808 reviews</p>
+                            </div>
+                            <i class="fa fa-heart-o favorite-icon"></i>
+                        </div>
+                        <!-- Repeat profile-list-item for more top rated babysitters -->
+                    </div>
+                </div>
             </RadzenTabsItem>
             <RadzenTabsItem Text="Nannies">
+                <div class="babysitters-container">
+                    <div class="section-header">
+                        <h2>Babysitters nearby</h2>
+                        <a href="#" class="see-all">See all</a>
+                    </div>
+                    <div class="babysitters-nearby slider">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <div class="profile-card">
+                                <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />
+                                <div class="profile-info">
+                                    <h3>Mir's Krystina <span>$20 /hr</span></h3>
+                                    <p class="location"><i class="fa fa-map-marker"></i> Plough Close.</p>
+                                    <p class="bio">Bio: I'm a hardworker and focused babysitter, I have additional...</p>
+                                    <div class="profile-actions">
+                                        <button class="view-profile">View profile</button>
+                                        <button class="message">Message</button>
+                                    </div>
+                                </div>
+                                <div class="profile-rating">
+                                    <i class="fa fa-star"></i> 4.1
+                                </div>
+                            </div>
+                        }
 
+                        <!-- Repeat profile-card for more babysitters -->
+                    </div>
+
+                    <div class="section-header">
+                        <h2>Top rated</h2>
+                        <a href="#" class="see-all">See all</a>
+                    </div>
+                    <div class="top-rated">
+                        <div class="profile-list-item">
+                            <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-list-image" />
+                            <div class="profile-list-info">
+                                <h3>Carole Howell <span>$20 /hr</span></h3>
+                                <p class="rating"><i class="fa fa-star"></i> 4.9 / 808 reviews</p>
+                            </div>
+                            <i class="fa fa-heart-o favorite-icon"></i>
+                        </div>
+                        <!-- Repeat profile-list-item for more top rated babysitters -->
+                    </div>
+                </div>
             </RadzenTabsItem>
         </Tabs>
     </RadzenTabs>

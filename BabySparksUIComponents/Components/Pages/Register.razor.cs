@@ -27,6 +27,10 @@ namespace BabySparksUIComponents.Components.Pages
         AppState? AppState { get; set; }
         [Inject]
         IStorageService storageService { get; set; }
+        protected override async Task OnInitializedAsync()
+        {
+            user = AppState.user;
+        }
 
         private async Task OnNextClick()
         {
@@ -35,15 +39,17 @@ namespace BabySparksUIComponents.Components.Pages
                 // Handle the selected value (e.g., navigate to another page or display a message)
                 Console.WriteLine($"Selected value: {selectedValue}");
                 IsRoleSelected = true;
-                
+
                 StateHasChanged();
-                
+
             }
             else
             {
                 Console.WriteLine("No option selected.");
             }
         }
+
+        #region Methods for image capture event
         private void HandleSelection(ChangeEventArgs e)
         {
             selectedValue = e.Value.ToString();
@@ -74,6 +80,8 @@ namespace BabySparksUIComponents.Components.Pages
         {
             await JSRuntime.InvokeAsync<Object>("UploadImage");
         }
+        #endregion
+
         async Task RegisterUser()
         {
             if (IsRoleSelected)
@@ -90,18 +98,14 @@ namespace BabySparksUIComponents.Components.Pages
                         AppState.user.userType = BabySparksSharedClassLibrary.Enums.UserType.Nanny;
                         break;
                 }
+                user.userType = AppState.user.userType;
                 storageService.SetValue("user", user);
                 Navigation?.NavigateTo("/", true);
                 await base.OnInitializedAsync();
             }
-            
+
         }
 
-        private ElementReference addressBox;
-        private RadzenTextBox? addressBoxRadzenTextBox;
-        private Autocomplete? autocomplete;
-        private string? placeData;
-        private string? formattedAddress;
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             if (IsRoleSelected)
@@ -113,6 +117,14 @@ namespace BabySparksUIComponents.Components.Pages
                 await SetupGoogleAddressAutoComplete();
             }
         }
+
+        #region GoogleMap Autocomplete
+
+        private ElementReference addressBox;
+        private RadzenTextBox? addressBoxRadzenTextBox;
+        private Autocomplete? autocomplete;
+        private string? placeData;
+        private string? formattedAddress;
         private async Task GoogleAddressAutoComplete()
         {
 
@@ -131,12 +143,15 @@ namespace BabySparksUIComponents.Components.Pages
                 var placeId = place.PlaceId;
                 var streetNumber = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("street_number"))?.LongName;
                 var street = place.AddressComponents.FirstOrDefault(a => a.Types != null && (a.Types.Contains("route") || a.Types.Contains("street_address")))?.LongName;
-                var city = place.AddressComponents.FirstOrDefault(a => a.Types != null && (a.Types.Contains("locality") || a.Types.Contains("neighborhood")))?.LongName;
+                var city = place.AddressComponents.LastOrDefault(a => a.Types != null && (a.Types.Contains("locality")))?.LongName;
                 var state = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("administrative_area_level_1"))?.LongName;
                 var country = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("country"))?.LongName;
                 var postcode = place.AddressComponents.FirstOrDefault(a => a.Types != null && a.Types.Contains("postal_code"))?.LongName;
-                formattedAddress = place.FormattedAddress;
+                user.Address = place.FormattedAddress;
+                user.City = city;
+                user.PinCode = postcode;
                 placeData = JsonSerializer.Serialize(place);
+
             }
         }
 
@@ -151,6 +166,8 @@ namespace BabySparksUIComponents.Components.Pages
             //await autocomplete.SetFields(new []{ "address_components", "geometry", "icon", "name" }); , "formatted_Address" formatted_address
             await this.autocomplete.SetFields(new[] { "address_components", "place_id", "formatted_address" });
         }
+
+        # endregion
 
     }
 }

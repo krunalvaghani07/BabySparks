@@ -1,8 +1,79 @@
 ﻿@page "/"
-@layout BabySparksUIComponents.Components.Layout.MainLayout
+@page "/home"
+
+<div class="header-container">
+    <div class="header">
+        <div class="imageheader" style="display : flex; height : 60px;">
+            <div style="width:50px;">
+                <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Image" @onclick="OpenSidebarMenu">
+
+            </div>
+            <div>
+                <h4 style="margin: 10px;">Hello Parent</h4>
+            </div>
+        </div>
+        <div class="welcomeheader" style="text-align:left;">
+            <h5>Welcome to BabySparks</h5>
+        </div>
+    </div>
+</div>
+
+@if (isSidebarOpen)
+{
+    <div class="modal fade left in" id="sidebar-left" tabindex="-1" role="dialog" style="display: block;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="padding-top : 40px;">
+                <div class="profile1-container">
+                    <div class="profile-header">
+                        <button class="back-button" @onclick="CloseSidebar"><i class="fa fa-arrow-left"></i></button>
+                    </div>
+                    <div class="profile-details">
+                        <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />
+                        <h3>@AppState.user.Name</h3>
+                        <p>@AppState.user.Email</p>
+                    </div>
+                    <ul class="profile-menu">
+                        <li>
+                            <a href="/profile">
+                                <i class="fa fa-user"></i> Profile details
+                                <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/home" @onclick="CloseSidebar">
+                                <i class="fa fa-home"></i> Home
+                                <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a @onclick="Logout">
+                                <i class="fa fa-sign-out"></i> Logout
+                                <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @if(AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.Parent)
 {
     <BabySparksUIComponents.SubComponent.ParentHome></BabySparksUIComponents.SubComponent.ParentHome>
+}
+
+@code{
+    bool isSidebarOpen = false;
+    async Task OpenSidebarMenu()
+    {
+        isSidebarOpen = true;
+        StateHasChanged();
+    }
+    async Task CloseSidebar()
+    {
+        isSidebarOpen = false;
+        StateHasChanged();
+    }
 }
 
