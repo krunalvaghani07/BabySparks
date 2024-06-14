@@ -36,6 +36,9 @@
     else
     {
         <div class="profile-container">
+            <div class="profile-header">
+                <button class="back-button" @onclick="GotoRoleSelection"><i class="fa fa-arrow-left"></i></button>
+            </div>
             <div class="profile-content">
                 <div class="profile-image-container">
                     <div class="card-body" style="position: relative; width: 150px; height: 150px; margin-left: auto; margin-right: auto;">
@@ -55,11 +58,38 @@
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-4 offset-md-4">
-                        <InputText class="form-control" id="name" placeholder="Enter your Name" @bind-Value="user.Name" />
+                @if (!selectedValue.Equals("Day Care"))
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <InputText class="form-control" id="name" placeholder="Enter your First Name" @bind-Value="user.FirstName" />
+                        </div>
                     </div>
-                </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <InputText class="form-control" id="name" placeholder="Enter your Last Name" @bind-Value="user.LastName" />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <InputText class="form-control" id="name" placeholder="Enter your DayCare Name" @bind-Value="user.FirstName" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <RadzenTextArea class="form-control" id="name" placeholder="Enter your DayCare Desctiption" @bind-Value="user.FirstName" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <InputText class="form-control" id="name" placeholder="What Services your daycare provide" @bind-Value="user.FirstName" />
+                        </div>
+                    </div>
+                }
+                
                 <div class="form-row">
                     <div class="form-group col-md-4 offset-md-4">
                         <InputText class="form-control" id="phone" placeholder="Enter your Phone" @bind-Value="user.PhoneNumber" />
@@ -81,6 +111,24 @@
                     </div>
 
                 </div>
+                @if (selectedValue.Equals("Nanny"))
+                {
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <RadzenTextArea class="form-control" id="name" placeholder="Tell use something about you self" @bind-Value="user.FirstName" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <RadzenNumeric class="form-control" id="name" placeholder="How much you charge hourly" @bind-Value="user.FirstName" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <RadzenNumeric class="form-control" id="name" placeholder="How much Experience do you have?" @bind-Value="user.FirstName" />
+                        </div>
+                    </div>
+                }
                 <div class="text-center row" style="margin-top : 20px;">
                     <div class="form-group col-md-4 offset-md-4">
                         <input type="submit" value="Register" class="btn btn-primary submit-btn" @onclick="RegisterUser"/>

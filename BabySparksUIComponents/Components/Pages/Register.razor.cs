@@ -105,6 +105,12 @@ namespace BabySparksUIComponents.Components.Pages
             }
 
         }
+        void GotoRoleSelection()
+        {
+            IsRoleSelected = false;
+            selectedValue = "";
+            StateHasChanged();
+        }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
