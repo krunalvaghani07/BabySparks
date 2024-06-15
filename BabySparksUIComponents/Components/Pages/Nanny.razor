@@ -1,3 +1,51 @@
 ﻿@page "/nannies"
 
-<PageTitle>Page Title</PageTitle>
+<div class="search-bar">
+    <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
+    <input type="text" placeholder="Search Nanies here">
+</div>
+
+<div class="babysitters-container">
+    <div class="babysitters-nearby slider">
+        @for (int i = 0; i < 5; i++)
+        {
+            <div class="profile-card">
+                <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />
+                <div class="profile-info">
+                    <h3>Mir's Krystina <span>$20 /hr</span></h3>
+                    <p class="location"><i class="fa fa-map-marker"></i> Plough Close.</p>
+                    <p class="bio">Bio: I'm a hardworker and focused babysitter, I have additional...</p>
+                    <div class="profile-actions">
+                        <button class="view-profile">View profile</button>
+                        <button class="message">Message</button>
+                    </div>
+                </div>
+                <div class="profile-rating">
+                    <i class="fa fa-star"></i> 4.1
+                </div>
+            </div>
+        }
+
+        <!-- Repeat profile-card for more babysitters -->
+    </div>
+</div>
+
+@if (isSidebarOpen)
+{
+    <BabySparksUIComponents.SubComponent.Sidebar OnClose="CloseSidebar"></BabySparksUIComponents.SubComponent.Sidebar>
+}
+
+@code {
+    bool isSidebarOpen = false;
+    async Task OpenSidebarMenu()
+    {
+        isSidebarOpen = true;
+        StateHasChanged();
+    }
+    async Task CloseSidebar()
+    {
+        isSidebarOpen = false;
+        StateHasChanged();
+    }
+}
+

@@ -1,6 +1,51 @@
 ﻿@page "/daycares"
 
+
 <div class="search-bar">
-    <input type="text" placeholder="Search here">
+    <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
+    <input type="text" placeholder="Search Daycare here">
 </div>
 
+<div class="babysitters-container">
+    <div class="babysitters-nearby slider">
+        @for (int i = 0; i < 5; i++)
+        {
+            <div class="profile-card">
+                <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-image-daycare" />
+                <div class="profile-info">
+                    <h3>Building Blocks daycare</h3>
+                    <p class="location"><i class="fa fa-map-marker"></i> 315 Margaret ave</p>
+                    <p class="bio">About: provides high quality, flexible child care and early education. Full-time, part-time, back-up for babies, toddlers, preschoolers.</p>
+                    <div class="profile-actions">
+                        <button class="view-profile">View profile</button>
+                        <button class="message">Message</button>
+                    </div>
+                </div>
+                <div class="profile-rating">
+                    <i class="fa fa-star"></i> 4.1
+                </div>
+            </div>
+        }
+
+        <!-- Repeat profile-card for more babysitters -->
+    </div>
+</div>
+
+@if (isSidebarOpen)
+{
+    <BabySparksUIComponents.SubComponent.Sidebar OnClose="CloseSidebar"></BabySparksUIComponents.SubComponent.Sidebar>
+}
+
+@code{
+    bool isSidebarOpen = false;
+    async Task OpenSidebarMenu()
+    {
+        isSidebarOpen = true;
+        StateHasChanged();
+    }
+    async Task CloseSidebar()
+    {
+        isSidebarOpen = false;
+        StateHasChanged();
+    }
+}
