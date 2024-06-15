@@ -1,0 +1,67 @@
+﻿
+<div class="modal fade left in" id="sidebar-left" tabindex="-1" role="dialog" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding-top : 40px;">
+            <div class="profile1-container">
+                <div class="profile-header">
+                    <button class="back-button" @onclick="CloseSidebar"><i class="fa fa-arrow-left"></i></button>
+                </div>
+                <div class="profile-details">
+                    <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />
+                    <h3>@AppState.user.FirstName</h3>
+                    <p>@AppState.user.Email</p>
+                </div>
+                <ul class="profile-menu">
+                    <li>
+                        <a href="/profile">
+                            <i class="fa fa-user"></i> Profile details
+                            <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/home" @onclick="CloseSidebar">
+                            <i class="fa fa-home"></i> Home
+                            <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/messages" @onclick="CloseSidebar">
+                            <i class="fa fa-comments"></i> Messages
+                            <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                        </a>
+                    </li>
+                    @if (AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.Parent)
+                    {
+                        <li>
+                            <a href="/daycares" @onclick="CloseSidebar">
+                                <i class="fa fa-institution"></i> Search Daycares
+                                <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/nannies" @onclick="CloseSidebar">
+                                <i class="fa fa-user"></i> Search Nanies
+                                <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                            </a>
+                        </li>
+                    }
+                    @if (AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.DayCare)
+                    {
+                        <li>
+                            <a href="/nannies" @onclick="CloseSidebar">
+                                <i class="fa fa-home"></i> Search Nanies
+                                <span class="fa fa-user"><i class="fa fa-chevron-right"></i></span>
+                            </a>
+                        </li>
+                    }
+                    <li>
+                        <a @onclick="Logout">
+                            <i class="fa fa-sign-out"></i> Logout
+                            <span class="menu-arrow"><i class="fa fa-chevron-right"></i></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@
         <img src="/_content/BabySparksUIComponents/images/appicon.png" alt="App Icon" />
     </div>
     <h2 class="title">Welcome</h2>
-    <EditForm Model=@user OnSubmit=@LoginFormSubmitted class="login-form">
+    <EditForm id="myForm" Model=@user OnSubmit=@LoginFormSubmitted class="login-form">
         <div class="form-group">
             <div class="input-container">
                 <InputText id="email" class="form-control" placeholder="Email Address" @bind-Value="user.Email" />
