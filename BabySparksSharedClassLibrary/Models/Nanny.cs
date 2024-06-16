@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace BabySparksSharedClassLibrary.Models
 {
-    public class DayCare : User
+    public class Nanny : User
     {
-        public string DayCareName { get; set; }
-        public string Description { get; set; }
-        public string ServiceProvided { get; set; }
+        public string Bio { get; set; }
+        public float Experience {  get; set; }
+        public float HourlyCharges { get; set; }
     }
 }

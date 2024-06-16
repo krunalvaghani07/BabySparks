@@ -19,6 +19,9 @@ namespace BabySparksUIComponents.Components.Pages
         private string selectedValue;
         private bool IsRoleSelected;
         private User user = new User();
+        private DayCare daycare = new DayCare();
+        private BabySparksSharedClassLibrary.Models.Nanny nanny = new BabySparksSharedClassLibrary.Models.Nanny();
+        private Parent parent = new Parent();
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
         [Inject]
