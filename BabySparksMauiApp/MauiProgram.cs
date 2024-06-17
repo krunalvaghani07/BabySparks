@@ -1,5 +1,6 @@
 ﻿using BabySparksMauiApp.Service;
 using BabySparksSharedClassLibrary.IServices;
+using BabySparksSharedClassLibrary.Repository;
 using BabySparksSharedClassLibrary.ServiceProvider;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
@@ -29,6 +30,8 @@ namespace BabySparksMauiApp
             builder.Services.AddAuthorizationCore();
             builder.Services.AddScoped<StateProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<StateProvider>());
+            builder.Services.AddTransient<IFirebaseDataAccess, FirebaseDataAccessRepository>();
+
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

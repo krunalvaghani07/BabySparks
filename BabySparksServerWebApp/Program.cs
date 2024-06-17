@@ -10,6 +10,7 @@ using BabySparksSharedClassLibrary.IServices;
 using BabySparksServerWebApp.Service;
 using Blazored.LocalStorage;
 using Radzen;
+using BabySparksSharedClassLibrary.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,8 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddScoped<ProtectedSessionStorage>();
 builder.Services.AddScoped<StateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider, StateProvider>();
+
+builder.Services.AddTransient<IFirebaseDataAccess, FirebaseDataAccessRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

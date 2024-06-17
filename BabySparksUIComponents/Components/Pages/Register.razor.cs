@@ -1,5 +1,6 @@
 ﻿using BabySparksSharedClassLibrary.IServices;
 using BabySparksSharedClassLibrary.Models;
+using BabySparksSharedClassLibrary.Repository;
 using BabySparksSharedClassLibrary.ServiceProvider;
 using GoogleMapsComponents.Maps.Places;
 using Microsoft.AspNetCore.Components;
@@ -30,6 +31,8 @@ namespace BabySparksUIComponents.Components.Pages
         AppState? AppState { get; set; }
         [Inject]
         IStorageService storageService { get; set; }
+        [Inject]
+        IFirebaseDataAccess firebaseDataAccess { get; set; }
         protected override async Task OnInitializedAsync()
         {
             user = AppState.user;
@@ -101,7 +104,43 @@ namespace BabySparksUIComponents.Components.Pages
                         AppState.user.userType = BabySparksSharedClassLibrary.Enums.UserType.Nanny;
                         break;
                 }
-                user.userType = AppState.user.userType;
+                switch (selectedValue)
+                {
+                    case "Day Care":
+                        daycare.Address = user.Address;
+                        daycare.Id = user.Id;
+                        daycare.Email = user.Email;
+                        daycare.City = user.City;
+                        daycare.PhoneNumber = user.PhoneNumber;
+                        daycare.PinCode = user.PinCode;
+                        daycare.userType = BabySparksSharedClassLibrary.Enums.UserType.DayCare;
+                        await firebaseDataAccess.AddDaycare(daycare);
+                        break;
+                    case "Parent":
+                        parent.Id = user.Id;
+                        parent.City = user.City;
+                        parent.Address = user.Address;
+                        parent.PhoneNumber = user.PhoneNumber;
+                        parent.FirstName = user.FirstName;
+                        parent.LastName = user.LastName;
+                        parent.Email = user.Email;
+                        parent.userType = BabySparksSharedClassLibrary.Enums.UserType.Parent;
+                        parent.PinCode = user.PinCode;
+                        await firebaseDataAccess.AddParent(parent);
+                        break;
+                    case "Nanny":
+                        nanny.Id = user.Id;
+                        nanny.City = user.City;
+                        nanny.Address = user.Address;
+                        nanny.PhoneNumber = user.PhoneNumber;
+                        nanny.FirstName = user.FirstName;
+                        nanny.LastName = user.LastName;
+                        nanny.Email = user.Email;
+                        nanny.PinCode = user.PinCode;
+                        nanny.userType = BabySparksSharedClassLibrary.Enums.UserType.Nanny;
+                        await firebaseDataAccess.AddParent(parent);
+                        break;
+                }
                 storageService.SetValue("user", user);
                 Navigation?.NavigateTo("/", true);
                 await base.OnInitializedAsync();

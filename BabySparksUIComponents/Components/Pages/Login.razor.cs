@@ -1,5 +1,6 @@
 ﻿using BabySparksSharedClassLibrary.IServices;
 using BabySparksSharedClassLibrary.Models;
+using BabySparksSharedClassLibrary.Repository;
 using BabySparksSharedClassLibrary.ServiceProvider;
 using Firebase.Auth;
 using Microsoft.AspNetCore.Components;
@@ -22,18 +23,19 @@ namespace BabySparksUIComponents.Components.Pages
         StateProvider authStateProvider { get; set; }
         [Inject]
         IStorageService storageService { get; set; }
+        [Inject]
+        IFirebaseDataAccess firebaseDataAccess { get; set; }
         async Task LoginFormSubmitted()
         {
             try
             {
                 await _authClient.SignInWithEmailAndPasswordAsync(user.Email, user.Password);
-                AppState.user = user;
-                user.Id = _authClient.User.Uid;
-                AppState.user.Id = _authClient.User.Uid;
+                AppState.user = await firebaseDataAccess.GetUser(_authClient.User.Uid);
+
                 AppState.IsAuthenticated = true;
-                storageService.SetValue("user", user);
+                storageService.SetValue("user", AppState.user);
                 authStateProvider.ManageUser();
-                Navigation?.NavigateTo("/register", true);
+                Navigation?.NavigateTo("/", true);
                 await base.OnInitializedAsync();
             }
             catch(Exception ex)
