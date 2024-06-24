@@ -57,83 +57,85 @@
                         </button>
                     </div>
                 </div>
+                <EditForm Model="user" OnValidSubmit="RegisterUser">
+                    @if (!selectedValue.Equals("Day Care"))
+                    {
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <input class="form-control" id="name" placeholder="Enter your First Name" @bind-value="user.FirstName" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <input class="form-control" id="name" placeholder="Enter your Last Name" @bind-value="user.LastName" required />
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <input class="form-control" id="name" placeholder="Enter your DayCare Name" @bind-value="daycare.DayCareName" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <textarea class="form-control" id="name" placeholder="Enter your DayCare Desctiption" @bind="daycare.Description" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <input class="form-control" id="name" placeholder="What Services your daycare provide" @bind-value="daycare.ServiceProvided" required />
+                            </div>
+                        </div>
+                    }
 
-                @if (!selectedValue.Equals("Day Care"))
-                {
                     <div class="form-row">
                         <div class="form-group col-md-4 offset-md-4">
-                            <InputText class="form-control" id="name" placeholder="Enter your First Name" @bind-Value="user.FirstName" />
+                            <input class="form-control" id="phone" placeholder="Enter your Phone" @bind-value="user.PhoneNumber" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4 offset-md-4">
-                            <InputText class="form-control" id="name" placeholder="Enter your Last Name" @bind-Value="user.LastName" />
-                        </div>
-                    </div>
-                }
-                else
-                {
-                    <div class="form-row">
-                        <div class="form-group col-md-4 offset-md-4">
-                            <InputText class="form-control" id="name" placeholder="Enter your DayCare Name" @bind-Value="daycare.DayCareName" />
+                            <RadzenTextBox class="form-control" @ref="addressBoxRadzenTextBox" Name="BusinessAddress1" @bind-Value="user.Address" Change=@GoogleAddressAutoComplete required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4 offset-md-4">
-                            <RadzenTextArea class="form-control" id="name" placeholder="Enter your DayCare Desctiption" @bind-Value="daycare.Description" />
+                            <input class="form-control" id="city" placeholder="Enter your City" @bind-value="user.City" required />
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-md-4 offset-md-4">
-                            <InputText class="form-control" id="name" placeholder="What Services your daycare provide" @bind-Value="daycare.ServiceProvided" />
+                            <input class="form-control" id="zCode" placeholder="Enter your Zip Code" @bind-value="user.PinCode" required />
+                        </div>
+
+                    </div>
+                    @if (selectedValue.Equals("Nanny"))
+                    {
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <textarea class="form-control" id="name" placeholder="Tell use something about you self" @bind="nanny.Bio" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <input type="number" class="form-control" id="name" placeholder="How much you charge hourly" @bind-value="nanny.HourlyCharges" required />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4 offset-md-4">
+                                <input type="number" class="form-control" id="name" placeholder="How much Experience do you have?" @bind-value="nanny.Experience" required />
+                            </div>
+                        </div>
+                    }
+                    <div class="text-center row" style="margin-top : 20px;">
+                        <div class="form-group col-md-4 offset-md-4">
+                            <input type="submit" value="Register" class="btn btn-primary submit-btn" />
                         </div>
                     </div>
-                }
+                </EditForm>
                 
-                <div class="form-row">
-                    <div class="form-group col-md-4 offset-md-4">
-                        <InputText class="form-control" id="phone" placeholder="Enter your Phone" @bind-Value="user.PhoneNumber" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 offset-md-4">
-                        <RadzenTextBox class="form-control" @ref="addressBoxRadzenTextBox" Name="BusinessAddress1" @bind-Value="user.Address" Change=@GoogleAddressAutoComplete />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 offset-md-4">
-                        <InputText class="form-control" id="city" placeholder="Enter your City" @bind-Value="user.City" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-4 offset-md-4">
-                        <InputText class="form-control" id="zCode" placeholder="Enter your Zip Code" @bind-Value="user.PinCode" />
-                    </div>
-
-                </div>
-                @if (selectedValue.Equals("Nanny"))
-                {
-                    <div class="form-row">
-                        <div class="form-group col-md-4 offset-md-4">
-                            <RadzenTextArea class="form-control" id="name" placeholder="Tell use something about you self" @bind-Value="nanny.Bio" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4 offset-md-4">
-                            <RadzenNumeric class="form-control" id="name" placeholder="How much you charge hourly" @bind-Value="nanny.HourlyCharges" />
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-4 offset-md-4">
-                            <RadzenNumeric class="form-control" id="name" placeholder="How much Experience do you have?" @bind-Value="nanny.Experience" />
-                        </div>
-                    </div>
-                }
-                <div class="text-center row" style="margin-top : 20px;">
-                    <div class="form-group col-md-4 offset-md-4">
-                        <input type="submit" value="Register" class="btn btn-primary submit-btn" @onclick="RegisterUser"/>
-                    </div>
-                </div>
             </div>
         </div>
     }   

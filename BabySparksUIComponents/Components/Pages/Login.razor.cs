@@ -25,6 +25,7 @@ namespace BabySparksUIComponents.Components.Pages
         IStorageService storageService { get; set; }
         [Inject]
         IFirebaseDataAccess firebaseDataAccess { get; set; }
+        private string errorMessage;
         async Task LoginFormSubmitted()
         {
             try
@@ -40,7 +41,7 @@ namespace BabySparksUIComponents.Components.Pages
             }
             catch(Exception ex)
             {
-                Console.WriteLine("Invalid Credentials");
+                errorMessage = "Invalid Credentials. Please check your email and password.";
             }
             
         }

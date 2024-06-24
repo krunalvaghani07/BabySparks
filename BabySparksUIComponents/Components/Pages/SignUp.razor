@@ -30,5 +30,11 @@
                 <a href="/login" style="color: #ff66b2; text-decoration: none;">Login</a>
             </div>
         </EditForm>
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @errorMessage
+            </div>
+        }
     </div>
 </div>

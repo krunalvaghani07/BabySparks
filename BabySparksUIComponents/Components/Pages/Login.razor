@@ -25,4 +25,10 @@
             <a href="/signup" class="register-link">Register</a>
         </div>
     </EditForm>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger" role="alert">
+            @errorMessage
+        </div>
+    }
 </div>

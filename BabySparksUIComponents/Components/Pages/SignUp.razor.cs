@@ -27,11 +27,13 @@ namespace BabySparksUIComponents.Components.Pages
         [Inject]
         IStorageService storageService { get; set; }
         protected override void OnInitialized() => user ??= new();
+        private string errorMessage;
+
         async Task SignUpFormSubmitted()
         {
             if(user?.Password.Trim() != user?.ConfirmPassword.Trim())
             {
-
+                errorMessage = "Password and confirm password are not same";
             }
             else
             {
@@ -39,9 +41,8 @@ namespace BabySparksUIComponents.Components.Pages
                 {
                     await _authClient.CreateUserWithEmailAndPasswordAsync(user?.Email, user?.Password);
                     AppState.IsAuthenticated = true;
-                    AppState.user = user;
                     user.Id = _authClient.User.Uid;
-                    AppState.user.Id = _authClient.User.Uid;
+                    AppState.user = user;
                     storageService.SetValue("user", user);
                     authStateProvider.ManageUser();
                     Navigation?.NavigateTo("/register", true);
@@ -50,7 +51,7 @@ namespace BabySparksUIComponents.Components.Pages
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message.ToString());
+                    errorMessage = "Invalid email";
                 }
                 
             }
