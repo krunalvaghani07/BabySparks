@@ -135,6 +135,57 @@ namespace BabySparksSharedClassLibrary.Repository
                 throw;
             }
         }
+        public async Task AddChild(Child child, string parentId)
+        {
+            try
+            {
+                DocumentReference docRef = fireStoreDb.Collection("user").Document(parentId);
+                CollectionReference colref = docRef.Collection("children");
+                child.createdRecord = DateTime.UtcNow.Date;
+                child.createdRecord = DateTime.SpecifyKind(child.createdRecord, DateTimeKind.Utc);
+                child.modifiedRecord = DateTime.SpecifyKind(child.modifiedRecord, DateTimeKind.Utc);
+                child.DateOfBirth = DateTime.SpecifyKind(child.DateOfBirth, DateTimeKind.Utc);
+                await colref.AddAsync(child);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<List<Child>> GetChildren(string parentId)
+        {
+            try
+            {
+                // Reference the specific document for the parent using the provided parentId
+                DocumentReference docRef = fireStoreDb.Collection("user").Document(parentId);
+
+                // Reference the "children" subcollection within the parent document
+                CollectionReference childrenColRef = docRef.Collection("children");
+
+                // Retrieve all documents from the "children" subcollection
+                QuerySnapshot snapshot = await childrenColRef.GetSnapshotAsync();
+
+                // Convert the documents to a list of Child objects
+                List<Child> children = new List<Child>();
+                foreach (DocumentSnapshot document in snapshot.Documents)
+                {
+                    if (document.Exists)
+                    {
+                        Child child = document.ConvertTo<Child>();
+                        child.DocId = document.Id;
+                        children.Add(child);
+                    }
+                }
+
+                return children;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as necessary
+                throw new Exception("Error retrieving children from Firestore", ex);
+            }
+        }
+
         public async Task AddNanny(Nanny nanny)
         {
             try
@@ -160,14 +211,21 @@ namespace BabySparksSharedClassLibrary.Repository
                 {
                     DocumentSnapshot snapshot = querySnapshot.Documents[0];
                     User user = snapshot.ConvertTo<User>();
+                    user.DocId = snapshot.Id;
                     switch (user.userType)
                     {
                         case UserType.Parent:
-                            return snapshot.ConvertTo<Parent>();
+                            Parent parent = snapshot.ConvertTo<Parent>();
+                            parent.DocId = snapshot.Id;
+                            return parent;
                         case UserType.Nanny:
-                            return snapshot.ConvertTo<Nanny>();
+                            Nanny nanny = snapshot.ConvertTo<Nanny>();
+                            nanny.DocId = snapshot.Id;
+                            return nanny;
                         case UserType.DayCare:
-                            return snapshot.ConvertTo<DayCare>();
+                            DayCare dayCare = snapshot.ConvertTo<DayCare>();
+                            dayCare.DocId = snapshot.Id;
+                            return dayCare;
                         default:
                             return user;
                     }
@@ -176,6 +234,34 @@ namespace BabySparksSharedClassLibrary.Repository
                 {
                     return new User();
                 }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<DayCare>> GetDaycareInCity(string city)
+        {
+            try
+            {
+
+                CollectionReference colRef = fireStoreDb.Collection("user");
+                Query query = colRef.WhereEqualTo("City", city)
+                    .WhereEqualTo("userType", UserType.DayCare);
+                
+                QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+                List<DayCare> daycares = new List<DayCare>();
+                foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
+                {
+                    if (documentSnapshot.Exists)
+                    {
+                        DayCare daycare = documentSnapshot.ConvertTo<DayCare>();
+                        daycares.Add(daycare);
+                    }
+                }
+
+                // Return the list of daycares
+                return daycares;
             }
             catch
             {

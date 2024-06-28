@@ -1,4 +1,5 @@
-﻿<div class="search-bar">
+﻿@using BabySparksSharedClassLibrary.Models
+<div class="search-bar">
     <input type="text" placeholder="Search here">
 </div>
 
@@ -8,18 +9,20 @@
             <RadzenTabsItem Text="DayCares">
                 <div class="babysitters-container">
                     <div class="section-header">
-                        <h2>Babysitters nearby</h2>
+                        <h2>Daycares in your city</h2>
                         <a href="#" class="see-all">See all</a>
                     </div>
                     <div class="babysitters-nearby slider">
-                        @for (int i = 0; i < 5; i++)
+                       
+
+                        @foreach(DayCare daycare in dayCaresInCity)
                         {
                             <div class="profile-card">
                                 <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-image-daycare" />
                                 <div class="profile-info">
-                                    <h3>Building Blocks daycare</h3>
-                                    <p class="location"><i class="fa fa-map-marker"></i> 315 Margaret ave</p>
-                                    <p class="bio">About: provides high quality, flexible child care and early education. Full-time, part-time, back-up for babies, toddlers, preschoolers.</p>
+                                    <h3>@daycare.DayCareName</h3>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @daycare.Address</p>
+                                    <p class="bio">About: @daycare.Description</p>
                                     <div class="profile-actions">
                                         <button class="view-profile">View profile</button>
                                         <button class="message">Message</button>
@@ -30,11 +33,9 @@
                                 </div>
                             </div>
                         }
-
-                        <!-- Repeat profile-card for more babysitters -->
                     </div>
 
-                    <div class="section-header">
+                    @* <div class="section-header">
                         <h2>Top rated</h2>
                         <a href="#" class="see-all">See all</a>
                     </div>
@@ -47,8 +48,7 @@
                             </div>
                             <i class="fa fa-heart-o favorite-icon"></i>
                         </div>
-                        <!-- Repeat profile-list-item for more top rated babysitters -->
-                    </div>
+                    </div> *@
                 </div>
             </RadzenTabsItem>
             <RadzenTabsItem Text="Nannies">

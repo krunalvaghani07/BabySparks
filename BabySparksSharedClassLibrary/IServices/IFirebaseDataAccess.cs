@@ -17,6 +17,8 @@ namespace BabySparksSharedClassLibrary.IServices
         Task AddParent(Parent parent);
         Task AddNanny(Nanny nanny);
         Task AddDaycare(DayCare daycare);
-
+        Task<IEnumerable<DayCare>> GetDaycareInCity(string city);
+        Task<List<Child>> GetChildren(string parentId);
+        Task AddChild(Child child, string parentId);
     }
 }

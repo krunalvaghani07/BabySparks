@@ -13,6 +13,7 @@ namespace BabySparksSharedClassLibrary.Models
     {
         [FirestoreProperty]
         public string Id { get; set; }
+        public string DocId { get; set; }
         [FirestoreProperty]
         public string FirstName { get; set; }
         [FirestoreProperty]
