@@ -135,6 +135,55 @@ namespace BabySparksSharedClassLibrary.Repository
                 throw;
             }
         }
+        public async Task AddMessage(Message message)
+        {
+            try
+            {
+                CollectionReference colRef = fireStoreDb.Collection("message");
+                await colRef.AddAsync(message);
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<List<Message>> GetMessagesForUser(string id)
+        {
+            try
+            {
+                List<Message> messages = new List<Message>();
+                CollectionReference colRef = fireStoreDb.Collection("message");
+                // Create the first query where RecieverId is equal to id
+                Query queryReciever = colRef.WhereEqualTo("RecieverId", id);
+
+                // Create the second query where FromId is equal to id
+                Query queryFrom = colRef.WhereEqualTo("FromId", id);
+
+                // Execute the queries
+                QuerySnapshot recieverSnapshot = await queryReciever.GetSnapshotAsync();
+                QuerySnapshot fromSnapshot = await queryFrom.GetSnapshotAsync();
+
+                // Combine the results
+                List<DocumentSnapshot> combinedResults = recieverSnapshot.Documents
+                    .Union(fromSnapshot.Documents)
+                    .ToList();
+
+                foreach (DocumentSnapshot documentSnapshot in combinedResults)
+                {
+                    if (documentSnapshot.Exists)
+                    {
+                        Message message = documentSnapshot.ConvertTo<Message>();
+                        message.Id = documentSnapshot.Id;
+                        messages.Add(message);
+                    }
+                }
+                return messages;
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task AddChild(Child child, string parentId)
         {
             try

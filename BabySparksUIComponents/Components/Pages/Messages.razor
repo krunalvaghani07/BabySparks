@@ -25,7 +25,7 @@
                     <div class="direct-chat-messages">
                         @if (messages != null && messages.Any())
                         {
-                            @foreach (var msg in messages)
+                            @foreach (var msg in messages.Where(ms => ms.FromId == selectedUser.Id || ms.RecieverId == selectedUser.Id).OrderBy(ms => ms.Timestamp))
                             {
                                 <div class="direct-chat-msg @(msg.FromId == AppState.user.Id ? "right" : "")">
                                     <div class="direct-chat-info clearfix">
@@ -100,8 +100,10 @@
         messages = new List<Message>();
         var uri = new Uri(NavigationManager.Uri);
         var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
         // Fetch messages for the selected user or chat room
-        //messages = await firebaseDataAccess.GetMessages(selectedUser.Id);
+        messages = await firebaseDataAccess.GetMessagesForUser(AppState.user.Id);
+
         if (queryParams.TryGetValue("chat", out var chat))
         {
             selectedUser = await firebaseDataAccess.GetUser(chat);
@@ -119,8 +121,6 @@
                 }
             }
 
-
-
             isMessageBoxOpen = true;
         }
         // Start SignalR connection
@@ -137,6 +137,7 @@
             {
                 Message sendMessage = new Message
                     {
+                        RecieverId = selectedUser.Id,
                         FromId = AppState.user.Id,
                         Content = message,
                         Timestamp = DateTime.UtcNow
@@ -154,11 +155,11 @@
                 // Send message via SignalR
                 await SignalRService.SendMessageAsync(selectedUser.Id, sendMessage);
 
+
                 messages.Add(sendMessage);
 
-
-                // Add sent message to UI immediately (optimistic UI update)
-
+                // add to database
+                await firebaseDataAccess.AddMessage(sendMessage);
 
                 message = ""; // Clear message input after sending
             }

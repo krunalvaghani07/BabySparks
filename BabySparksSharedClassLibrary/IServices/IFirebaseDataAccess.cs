@@ -20,5 +20,7 @@ namespace BabySparksSharedClassLibrary.IServices
         Task<IEnumerable<DayCare>> GetDaycareInCity(string city);
         Task<List<Child>> GetChildren(string parentId);
         Task AddChild(Child child, string parentId);
+        Task<List<Message>> GetMessagesForUser(string id);
+        Task AddMessage(Message message);
     }
 }
