@@ -12,6 +12,8 @@ using Blazored.LocalStorage;
 using Radzen;
 using BabySparksSharedClassLibrary.Repository;
 using Microsoft.AspNetCore.SignalR.Client;
+using BabySparksSharedClassLibrary.Service;
+using Google.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 AppState appState = new();
 appState.IsWeb = true;
 builder.Services.AddSingleton<AppState>(appState);
+builder.Services.AddScoped<ISignalRService, SignalRService>();
 
 builder.Logging.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
 {

@@ -3,6 +3,7 @@
 @inject NavigationManager NavigationManager
 @inject HubConnection hubConnection
 @inject IFirebaseDataAccess firebaseDataAccess
+@inject ISignalRService SignalRService
 @inject AppState AppState
 
 <div class="container">
@@ -17,7 +18,7 @@
                 <div class="chat-header">
                     <h3 class="box-title">@chatName</h3>
                     <div class="box-tools pull-right">
-                        <button type="button" @onclick="ToggleMessageBox" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        <button type="button" @onclick="() =>ToggleMessageBox(selectedUser.Id)" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div class="chat-body">
@@ -31,7 +32,7 @@
                                         <span class="direct-chat-name @(msg.FromId == AppState.user.Id ? "pull-right" : "pull-left")">@msg.FromName</span>
                                         <span class="direct-chat-timestamp @(msg.FromId == AppState.user.Id ? "pull-left" : "pull-right")">@msg.Timestamp.ToString("dd MMM h:mm tt")</span>
                                     </div>
-                                
+
                                     <div class="direct-chat-text">
                                         @msg.Content
                                     </div>
@@ -63,12 +64,20 @@
             <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
         </div>
         <div class="top-rated">
-            <div class="profile-list-item" @onclick="ToggleMessageBox">
-                <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-list-image" />
-                <div class="profile-list-info">
-                    <h3>Building Blocks daycare</h3><span><i class="fa fa-map-marker"></i> Kitchener</span>
-                </div>
-            </div>
+            @if (messages != null)
+            {
+                @foreach (var message in messages.DistinctBy(ms => ms.FromId).Where(ms => ms.FromId != AppState.user.Id))
+                {
+                    <div class="profile-list-item" @onclick="() => ToggleMessageBox(message.FromId)">
+                        <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-list-image" />
+                        <div class="profile-list-info">
+                            <h3>@message.FromName</h3>
+                        </div>
+                    </div>
+                }
+            }
+
+
         </div>
     }
 </div>
@@ -88,9 +97,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        messages = new List<Message>();
         var uri = new Uri(NavigationManager.Uri);
         var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
-
+        // Fetch messages for the selected user or chat room
+        //messages = await firebaseDataAccess.GetMessages(selectedUser.Id);
         if (queryParams.TryGetValue("chat", out var chat))
         {
             selectedUser = await firebaseDataAccess.GetUser(chat);
@@ -108,11 +119,14 @@
                 }
             }
 
-            // Fetch messages for the selected user or chat room
-            //messages = await firebaseDataAccess.GetMessages(selectedUser.Id);
+
 
             isMessageBoxOpen = true;
         }
+        // Start SignalR connection
+        await SignalRService.StartConnectionAsync();
+        // Handle incoming messages
+        SignalRService.OnMessageReceived += OnReceiveMessage;
     }
 
     async Task SendMessage()
@@ -121,17 +135,30 @@
         {
             if (!string.IsNullOrWhiteSpace(message))
             {
-                // Send message via SignalR
-                await hubConnection.InvokeAsync("SendMessage", selectedUser.Id, AppState.user.Id, message);
-
-                // Add sent message to UI immediately (optimistic UI update)
-                messages.Add(new Message
+                Message sendMessage = new Message
                     {
                         FromId = AppState.user.Id,
-                        FromName = AppState.user.FirstName,
                         Content = message,
                         Timestamp = DateTime.UtcNow
-                    });
+                    };
+                if (AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.DayCare)
+                {
+                    DayCare dayCare = await firebaseDataAccess.GetUser(AppState.user.Id) as DayCare;
+                    sendMessage.FromName = dayCare.DayCareName;
+                }
+                else
+                {
+                    sendMessage.FromName = AppState.user.FirstName;
+
+                }
+                // Send message via SignalR
+                await SignalRService.SendMessageAsync(selectedUser.Id, sendMessage);
+
+                messages.Add(sendMessage);
+
+
+                // Add sent message to UI immediately (optimistic UI update)
+
 
                 message = ""; // Clear message input after sending
             }
@@ -140,6 +167,14 @@
         {
             // Handle send message error
         }
+    }
+    private async void OnReceiveMessage(Message message)
+    {
+        messages.Add(message);
+        await InvokeAsync(() =>
+        {
+            StateHasChanged();
+        });
     }
 
     async Task OpenSidebarMenu()
@@ -152,8 +187,18 @@
         isSidebarOpen = false;
     }
 
-    async Task ToggleMessageBox()
+    async Task ToggleMessageBox(string id)
     {
+        selectedUser = await firebaseDataAccess.GetUser(id);
+        if(selectedUser.userType == BabySparksSharedClassLibrary.Enums.UserType.DayCare)
+        {
+            chatName = (selectedUser as DayCare).DayCareName;
+        }
+        else
+        {
+            chatName = selectedUser.FirstName;
+        }
+
         message = "";
         isMessageBoxOpen = !isMessageBoxOpen;
     }

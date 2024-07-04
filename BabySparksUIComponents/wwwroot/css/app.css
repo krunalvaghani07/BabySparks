@@ -806,7 +806,6 @@ h1:focus {
     -o-transform: translate(0, 0);
     transform: translate(0, 0);
     padding: 10px;
-    height: 250px;
     overflow: auto;
 }
 

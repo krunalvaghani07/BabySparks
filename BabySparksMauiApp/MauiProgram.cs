@@ -1,9 +1,11 @@
 ﻿using BabySparksMauiApp.Service;
 using BabySparksSharedClassLibrary.IServices;
 using BabySparksSharedClassLibrary.Repository;
+using BabySparksSharedClassLibrary.Service;
 using BabySparksSharedClassLibrary.ServiceProvider;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
+using Google.Api;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
@@ -45,6 +47,8 @@ namespace BabySparksMauiApp
                         };
                     })
                 .Build());
+            builder.Services.AddScoped<ISignalRService, SignalRService>();
+
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
