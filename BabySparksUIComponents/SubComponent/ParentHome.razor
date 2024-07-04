@@ -25,7 +25,7 @@
                                     <p class="bio">About: @daycare.Description</p>
                                     <div class="profile-actions">
                                         <button class="view-profile">View profile</button>
-                                        <button class="message">Message</button>
+                                        <button class="message" @onclick="() => NavigateToMessages(daycare.Id)">Message</button>
                                     </div>
                                 </div>
                                 <div class="profile-rating">

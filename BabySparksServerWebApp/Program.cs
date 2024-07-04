@@ -11,6 +11,7 @@ using BabySparksServerWebApp.Service;
 using Blazored.LocalStorage;
 using Radzen;
 using BabySparksSharedClassLibrary.Repository;
+using Microsoft.AspNetCore.SignalR.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,18 @@ builder.Services.AddScoped<StateProvider>();
 builder.Services.AddScoped<AuthenticationStateProvider, StateProvider>();
 
 builder.Services.AddTransient<IFirebaseDataAccess, FirebaseDataAccessRepository>();
+builder.Services.AddSingleton(sp => new HubConnectionBuilder()
+                   .WithUrl($"https://127.0.0.1:7117/chatHub", options =>
+                   {
+                       options.HttpMessageHandlerFactory = _ =>
+                       {
+                           return new HttpClientHandler
+                           {
+                               ServerCertificateCustomValidationCallback = (message, certificate2, chain, sslPolicyErrors) => true
+                           };
+                       };
+                   })
+               .Build());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

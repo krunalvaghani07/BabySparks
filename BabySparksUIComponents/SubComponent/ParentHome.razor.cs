@@ -13,6 +13,8 @@ namespace BabySparksUIComponents.SubComponent
     {
         TabPosition tabPosition = TabPosition.Top;
         [Inject]
+        NavigationManager? Navigation { get; set; }
+        [Inject]
         AppState AppState { get; set; }
         [Inject]
         IFirebaseDataAccess firebaseDataAccess { get; set; }
@@ -24,6 +26,10 @@ namespace BabySparksUIComponents.SubComponent
         protected override async Task OnInitializedAsync()
         {
             dayCaresInCity = (List<DayCare>)await firebaseDataAccess.GetDaycareInCity(AppState.user.City);
+        }
+        void NavigateToMessages(string id)
+        {
+            Navigation.NavigateTo($"/messages?chat={id}");
         }
     }
 }

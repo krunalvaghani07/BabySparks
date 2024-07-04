@@ -8,7 +8,13 @@
                 <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Image" @onclick="OpenSidebarMenu">
             </div>
             <div>
-                <h4 style="margin: 10px;">Hello @AppState.user.FirstName</h4>
+                @if(AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.Nanny || 
+                AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.Parent)
+                {
+                    <h4 style="margin: 10px;">Hello @AppState.user.FirstName</h4>
+                }else{
+                    <h4 style="margin: 10px;">Hello DaycareProvider</h4>
+                }
             </div>
         </div>
         <div class="welcomeheader" style="text-align:left;">

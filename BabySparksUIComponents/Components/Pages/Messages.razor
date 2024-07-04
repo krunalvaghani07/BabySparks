@@ -1,81 +1,53 @@
 ﻿@page "/messages"
-
-
+@using BabySparksSharedClassLibrary.Models
+@inject NavigationManager NavigationManager
+@inject HubConnection hubConnection
+@inject IFirebaseDataAccess firebaseDataAccess
+@inject AppState AppState
 
 <div class="container">
-    <div class="search-bar">
-        <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
-    </div>
 
-    
-    @if (ismessageBoxOpen)
+    @if (isMessageBoxOpen)
     {
         <div class="col-md-12">
-            <!-- DIRECT CHAT PRIMARY -->
-            <div class="box box-primary direct-chat direct-chat-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Name</h3>
+            <div class="chat-container">
+                <div class="search-bar">
+                    <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
+                </div>
+                <div class="chat-header">
+                    <h3 class="box-title">@chatName</h3>
                     <div class="box-tools pull-right">
                         <button type="button" @onclick="ToggleMessageBox" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                 </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <!-- Conversations are loaded here -->
+                <div class="chat-body">
                     <div class="direct-chat-messages">
-                        <!-- Message. Default to the left -->
-                        <div class="direct-chat-msg">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-left">Alexander Pierce</span>
-                                <span class="direct-chat-timestamp pull-right">23 Jan 2:00 pm</span>
-                            </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="https://bootdey.com/img/Content/user_1.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                Is this template really for free? That's unbelievable!
-                            </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
-                        <!-- /.direct-chat-msg -->
-                        <!-- Message to the right -->
-                        <div class="direct-chat-msg right">
-                            <div class="direct-chat-info clearfix">
-                                <span class="direct-chat-name pull-right">Sarah Bullock</span>
-                                <span class="direct-chat-timestamp pull-left">23 Jan 2:05 pm</span>
-                            </div>
-                            <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="https://bootdey.com/img/Content/user_2.jpg" alt="Message User Image"><!-- /.direct-chat-img -->
-                            <div class="direct-chat-text">
-                                You better believe it!
-                            </div>
-                            <!-- /.direct-chat-text -->
-                        </div>
-                        <!-- /.direct-chat-msg -->
-                    </div>
-                    <!--/.direct-chat-messages-->
-                    <!-- Contacts are loaded here -->
-                    <div class="direct-chat-contacts">
-                        <ul class="contacts-list">
-                            <li>
-                                <a href="#">
-                                    <img class="contacts-list-img" src="https://bootdey.com/img/Content/user_1.jpg">
-
-                                    <div class="contacts-list-info">
-                                        <span class="contacts-list-name">
-                                            Count Dracula
-                                            <small class="contacts-list-date pull-right">2/28/2015</small>
-                                        </span>
-                                        <span class="contacts-list-msg">How have you been? I was...</span>
+                        @if (messages != null && messages.Any())
+                        {
+                            @foreach (var msg in messages)
+                            {
+                                <div class="direct-chat-msg @(msg.FromId == AppState.user.Id ? "right" : "")">
+                                    <div class="direct-chat-info clearfix">
+                                        <span class="direct-chat-name @(msg.FromId == AppState.user.Id ? "pull-right" : "pull-left")">@msg.FromName</span>
+                                        <span class="direct-chat-timestamp @(msg.FromId == AppState.user.Id ? "pull-left" : "pull-right")">@msg.Timestamp.ToString("dd MMM h:mm tt")</span>
                                     </div>
-                                </a>
-                            </li>
-                        </ul>
+                                
+                                    <div class="direct-chat-text">
+                                        @msg.Content
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>No messages found.</p>
+                        }
                     </div>
                 </div>
-                <div class="box-footer">
-                    <form action="#" method="post">
+                <div class="chat-footer">
+                    <form @onsubmit="SendMessage">
                         <div class="input-group">
-                            <input type="text" name="message" placeholder="Type Message ..." class="form-control">
+                            <input type="text" name="message" placeholder="Type Message ..." @bind-value="message" class="form-control">
                             <span class="input-group-btn">
                                 <button type="submit" class="btn btn-primary btn-flat">Send</button>
                             </span>
@@ -87,18 +59,19 @@
     }
     else
     {
+        <div class="search-bar">
+            <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
+        </div>
         <div class="top-rated">
             <div class="profile-list-item" @onclick="ToggleMessageBox">
                 <img src="/_content/BabySparksUIComponents/images/daycare_default.jpg" alt="Profile Picture" class="profile-list-image" />
                 <div class="profile-list-info">
-                    <h3>Building Blocks daycar </h3><span><i class="fa fa-map-marker"></i> Kitchener</span>
+                    <h3>Building Blocks daycare</h3><span><i class="fa fa-map-marker"></i> Kitchener</span>
                 </div>
             </div>
         </div>
     }
-
 </div>
-
 
 @if (isSidebarOpen)
 {
@@ -107,20 +80,81 @@
 
 @code {
     bool isSidebarOpen = false;
-    bool ismessageBoxOpen = false;
+    bool isMessageBoxOpen = false;
+    string chatName;
+    User selectedUser;
+    string message;
+    List<Message> messages;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+        if (queryParams.TryGetValue("chat", out var chat))
+        {
+            selectedUser = await firebaseDataAccess.GetUser(chat);
+
+            if (selectedUser.userType == BabySparksSharedClassLibrary.Enums.UserType.Nanny || selectedUser.userType == BabySparksSharedClassLibrary.Enums.UserType.Parent)
+            {
+                chatName = selectedUser.FirstName;
+            }
+            else
+            {
+                DayCare dayCare = selectedUser as DayCare;
+                if (dayCare != null)
+                {
+                    chatName = dayCare.DayCareName;
+                }
+            }
+
+            // Fetch messages for the selected user or chat room
+            //messages = await firebaseDataAccess.GetMessages(selectedUser.Id);
+
+            isMessageBoxOpen = true;
+        }
+    }
+
+    async Task SendMessage()
+    {
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                // Send message via SignalR
+                await hubConnection.InvokeAsync("SendMessage", selectedUser.Id, AppState.user.Id, message);
+
+                // Add sent message to UI immediately (optimistic UI update)
+                messages.Add(new Message
+                    {
+                        FromId = AppState.user.Id,
+                        FromName = AppState.user.FirstName,
+                        Content = message,
+                        Timestamp = DateTime.UtcNow
+                    });
+
+                message = ""; // Clear message input after sending
+            }
+        }
+        catch (Exception ex)
+        {
+            // Handle send message error
+        }
+    }
+
     async Task OpenSidebarMenu()
     {
         isSidebarOpen = true;
-        StateHasChanged();
     }
+
     async Task CloseSidebar()
     {
         isSidebarOpen = false;
-        StateHasChanged();
     }
+
     async Task ToggleMessageBox()
     {
-        ismessageBoxOpen = !ismessageBoxOpen;
+        message = "";
+        isMessageBoxOpen = !isMessageBoxOpen;
     }
 }
-

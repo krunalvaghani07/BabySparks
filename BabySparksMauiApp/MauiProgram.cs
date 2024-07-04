@@ -5,6 +5,7 @@ using BabySparksSharedClassLibrary.ServiceProvider;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Logging;
 
 namespace BabySparksMauiApp
@@ -32,7 +33,18 @@ namespace BabySparksMauiApp
             builder.Services.AddScoped<AuthenticationStateProvider>(s => s.GetRequiredService<StateProvider>());
             builder.Services.AddTransient<IFirebaseDataAccess, FirebaseDataAccessRepository>();
 
-
+            builder.Services.AddSingleton(sp => new HubConnectionBuilder()
+                    .WithUrl($"https://127.0.0.1:7117/chatHub", options =>
+                    {
+                        options.HttpMessageHandlerFactory = _ =>
+                        {
+                            return new HttpClientHandler
+                            {
+                                ServerCertificateCustomValidationCallback = (message, certificate2, chain, sslPolicyErrors) => true
+                            };
+                        };
+                    })
+                .Build());
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

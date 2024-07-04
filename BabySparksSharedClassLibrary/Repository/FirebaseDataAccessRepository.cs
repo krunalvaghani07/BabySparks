@@ -256,6 +256,7 @@ namespace BabySparksSharedClassLibrary.Repository
                     if (documentSnapshot.Exists)
                     {
                         DayCare daycare = documentSnapshot.ConvertTo<DayCare>();
+                        daycare.DocId = documentSnapshot.Id;
                         daycares.Add(daycare);
                     }
                 }

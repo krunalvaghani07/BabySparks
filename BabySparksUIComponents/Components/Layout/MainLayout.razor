@@ -3,6 +3,7 @@
 @inject AppState AppState
 @inject IStorageService StorageService
 @inject NavigationManager navigationManager
+@inject HubConnection hubConnection
 
 <Microsoft.AspNetCore.Components.Authorization.AuthorizeView>
     <div class="page">
@@ -19,6 +20,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        
         if (!(await AuthenticationState).User.Identity.IsAuthenticated)
         {
             navigationManager.NavigateTo("/login");
@@ -26,7 +28,17 @@
         else
         {
             AppState.user = await StorageService.GetValue<User>("user");
+            hubConnection.On<string, string>(AppState.user.Id, (user, message) =>
+            {
+                
+            });
+            await hubConnection.StartAsync();
         }
+
+    }
+    public async ValueTask DisposeAsync()
+    {
+        await hubConnection.DisposeAsync();
     }
 }
 
