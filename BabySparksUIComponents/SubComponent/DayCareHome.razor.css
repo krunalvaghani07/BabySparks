@@ -1,0 +1,24 @@
+﻿.card-header {
+    background-color: #f8f9fa;
+    color: #343a40;
+    padding: 1.25rem;
+    border-bottom: 1px solid #dee2e6;
+    text-align: center;
+    font-size: 1.25rem;
+}
+
+.card-body {
+    padding: 1.25rem;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+.card {
+    margin-top: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 10px;
+}

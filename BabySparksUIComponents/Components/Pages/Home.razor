@@ -32,6 +32,10 @@
 {
     <BabySparksUIComponents.SubComponent.ParentHome></BabySparksUIComponents.SubComponent.ParentHome>
 }
+@if (AppState.user.userType == BabySparksSharedClassLibrary.Enums.UserType.DayCare)
+{
+    <BabySparksUIComponents.SubComponent.DayCareHome></BabySparksUIComponents.SubComponent.DayCareHome>
+}
 
 @code{
     bool isSidebarOpen = false;

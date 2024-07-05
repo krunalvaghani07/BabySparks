@@ -58,17 +58,17 @@
                         <a href="#" class="see-all">See all</a>
                     </div>
                     <div class="babysitters-nearby slider">
-                        @for (int i = 0; i < 5; i++)
+                        @foreach(var nany in nanniesInCity)
                         {
                             <div class="profile-card">
                                 <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />
                                 <div class="profile-info">
-                                    <h3>Mir's Krystina <span>$20 /hr</span></h3>
-                                    <p class="location"><i class="fa fa-map-marker"></i> Plough Close.</p>
-                                    <p class="bio">Bio: I'm a hardworker and focused babysitter, I have additional...</p>
+                                    <h3>@nany.FirstName <span>$@nany.HourlyCharges /hr</span></h3>
+                                    <p class="location"><i class="fa fa-map-marker"></i> @nany.Address</p>
+                                    <p class="bio">Bio: @nany.Bio</p>
                                     <div class="profile-actions">
                                         <button class="view-profile">View profile</button>
-                                        <button class="message">Message</button>
+                                        <button class="message" @onclick="() => NavigateToMessages(nany.Id)">Message</button>
                                     </div>
                                 </div>
                                 <div class="profile-rating">
@@ -76,8 +76,7 @@
                                 </div>
                             </div>
                         }
-
-                        <!-- Repeat profile-card for more babysitters -->
+                       
                     </div>
 
                     <div class="section-header">

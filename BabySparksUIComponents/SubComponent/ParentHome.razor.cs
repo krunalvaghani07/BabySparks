@@ -19,6 +19,7 @@ namespace BabySparksUIComponents.SubComponent
         [Inject]
         IFirebaseDataAccess firebaseDataAccess { get; set; }
         private List<DayCare> dayCaresInCity = new List<DayCare>();
+        private List<Nanny> nanniesInCity = new List<Nanny>();
         void OnChange(int index)
         {
             Console.WriteLine($"Tab with index {index} was selected.");
@@ -26,6 +27,7 @@ namespace BabySparksUIComponents.SubComponent
         protected override async Task OnInitializedAsync()
         {
             dayCaresInCity = (List<DayCare>)await firebaseDataAccess.GetDaycareInCity(AppState.user.City);
+            nanniesInCity = (List<Nanny>)await firebaseDataAccess.GetNanniesInCity(AppState.user.City);
         }
         void NavigateToMessages(string id)
         {

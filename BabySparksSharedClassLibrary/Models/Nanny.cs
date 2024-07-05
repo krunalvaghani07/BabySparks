@@ -13,10 +13,10 @@ namespace BabySparksSharedClassLibrary.Models
         [FirestoreProperty]
         public string Bio { get; set; }
         [FirestoreProperty]
-        public float Experience {  get; set; }
+        public double? Experience {  get; set; }
         [FirestoreProperty]
-        public float HourlyCharges { get; set; }
+        public double? HourlyCharges { get; set; }
         [FirestoreProperty]
-        public float Ratings { get; set; }
+        public double Ratings { get; set; }
     }
 }

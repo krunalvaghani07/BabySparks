@@ -2,22 +2,26 @@
 
 <div class="search-bar">
     <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
-    <input type="text" placeholder="Search Nanies here">
+    <input type="text" class="mt-3" placeholder="Search Nanies here">
+    <div>
+        <input type="text" class="mt-3" placeholder="Location (City)" @bind-value="location">
+    </div>
+    
 </div>
 
 <div class="babysitters-container">
     <div class="babysitters-nearby slider">
-        @for (int i = 0; i < 5; i++)
+        @foreach(var nanny in nannies)
         {
             <div class="profile-card">
                 <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />
                 <div class="profile-info">
-                    <h3>Mir's Krystina <span>$20 /hr</span></h3>
-                    <p class="location"><i class="fa fa-map-marker"></i> Plough Close.</p>
-                    <p class="bio">Bio: I'm a hardworker and focused babysitter, I have additional...</p>
+                    <h3>@nanny.FirstName <span>$@nanny.HourlyCharges /hr</span></h3>
+                    <p class="location"><i class="fa fa-map-marker"></i> @nanny.Address .</p>
+                    <p class="bio">Bio: @nanny.Bio ...</p>
                     <div class="profile-actions">
                         <button class="view-profile">View profile</button>
-                        <button class="message">Message</button>
+                        <button class="message" @onclick="() => NavigateToMessages(nanny.Id)">Message</button>
                     </div>
                 </div>
                 <div class="profile-rating">
@@ -36,6 +40,7 @@
 }
 
 @code {
+
     bool isSidebarOpen = false;
     async Task OpenSidebarMenu()
     {

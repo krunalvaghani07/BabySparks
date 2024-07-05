@@ -138,7 +138,7 @@ namespace BabySparksUIComponents.Components.Pages
                         nanny.Email = user.Email;
                         nanny.PinCode = user.PinCode;
                         nanny.userType = BabySparksSharedClassLibrary.Enums.UserType.Nanny;
-                        await firebaseDataAccess.AddParent(parent);
+                        await firebaseDataAccess.AddNanny(nanny);
                         break;
                 }
                 storageService.SetValue("user", user);

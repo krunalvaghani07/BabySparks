@@ -318,6 +318,36 @@ namespace BabySparksSharedClassLibrary.Repository
                 throw;
             }
         }
+        public async Task<IEnumerable<Nanny>> GetNanniesInCity(string city)
+        {
+            try
+            {
+
+                CollectionReference colRef = fireStoreDb.Collection("user");
+                Query query = colRef.WhereEqualTo("City", city)
+                    .WhereEqualTo("userType", UserType.Nanny);
+
+                QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+                List<Nanny> nannies = new List<Nanny>();
+                foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
+                {
+                    if (documentSnapshot.Exists)
+                    {
+                        Nanny nanny = documentSnapshot.ConvertTo<Nanny>();
+                        nanny.DocId = documentSnapshot.Id;
+                        nannies.Add(nanny);
+                    }
+                }
+
+                // Return the list of nannies
+                return nannies;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
         public async Task<Parent> GetParent(string id)
         {
             try
