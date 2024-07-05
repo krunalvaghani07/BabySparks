@@ -33,5 +33,9 @@ namespace BabySparksUIComponents.SubComponent
         {
             Navigation.NavigateTo($"/messages?chat={id}");
         }
+        void NavigateToProfile(string id)
+        {
+            Navigation.NavigateTo($"/profile?profileId={id}");
+        }
     }
 }

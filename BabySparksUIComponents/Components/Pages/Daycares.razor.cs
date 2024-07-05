@@ -44,5 +44,9 @@ namespace BabySparksUIComponents.Components.Pages
             searchdaycares = daycares.Where(dc => dc.DayCareName.ToLower().Contains(namesearch.ToLower())).ToList();
             StateHasChanged();
         }
+        void NavigateToProfile(string id)
+        {
+            Navigation.NavigateTo($"/profile?profileId={id}");
+        }
     }
 }

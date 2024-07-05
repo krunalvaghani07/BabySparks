@@ -20,7 +20,7 @@
                     <p class="location"><i class="fa fa-map-marker"></i> @nanny.Address .</p>
                     <p class="bio">Bio: @nanny.Bio ...</p>
                     <div class="profile-actions">
-                        <button class="view-profile">View profile</button>
+                        <button class="view-profile" @onclick="() => NavigateToProfile(nanny.Id)">View profile</button>
                         <button class="message" @onclick="() => NavigateToMessages(nanny.Id)">Message</button>
                     </div>
                 </div>

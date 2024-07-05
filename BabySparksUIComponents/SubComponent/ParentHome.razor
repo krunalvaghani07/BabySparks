@@ -24,7 +24,7 @@
                                     <p class="location"><i class="fa fa-map-marker"></i> @daycare.Address</p>
                                     <p class="bio">About: @daycare.Description</p>
                                     <div class="profile-actions">
-                                        <button class="view-profile">View profile</button>
+                                        <button class="view-profile" @onclick="() => NavigateToProfile(daycare.Id)">View profile</button>
                                         <button class="message" @onclick="() => NavigateToMessages(daycare.Id)">Message</button>
                                     </div>
                                 </div>
@@ -67,7 +67,7 @@
                                     <p class="location"><i class="fa fa-map-marker"></i> @nany.Address</p>
                                     <p class="bio">Bio: @nany.Bio</p>
                                     <div class="profile-actions">
-                                        <button class="view-profile">View profile</button>
+                                        <button class="view-profile" @onclick="() => NavigateToProfile(nany.Id)">View profile</button>
                                         <button class="message" @onclick="() => NavigateToMessages(nany.Id)">Message</button>
                                     </div>
                                 </div>

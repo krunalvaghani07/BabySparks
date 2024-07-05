@@ -1,0 +1,154 @@
+﻿.container {
+    text-align: center;
+    height: 100%;
+}
+
+.form-control-register {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.submit-btn {
+    background-color: #ff66b2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+
+    .submit-btn:hover {
+        background-color: #ff3385;
+    }
+
+.header h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.subheader p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.options ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.options li {
+    display: inline-block;
+}
+
+input[type="radio"][id^="daycare"], input[type="radio"][id^="parent"], input[type="radio"][id^="nanny"] {
+    display: none;
+}
+
+label {
+    border: 2px solid transparent;
+    padding: 10px;
+    display: block;
+    position: relative;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+    label:before {
+        background-color: white;
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        border: 1px solid grey;
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        line-height: 28px;
+        transition: all 0.4s ease;
+        transform: scale(0);
+    }
+
+    label img {
+        height: 100px;
+        width: 100px;
+        transition: all 0.3s ease;
+        transform-origin: 50% 50%;
+    }
+
+    label span {
+        display: block;
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+input[type="radio"]:checked + label {
+    border-color: #007bff;
+    background-color: #f0f8ff;
+    border-radius: 10px;
+}
+
+    input[type="radio"]:checked + label:before {
+        content: "✓";
+        background-color: #007bff;
+        transform: scale(1);
+        color: white;
+    }
+
+    input[type="radio"]:checked + label img {
+        transform: scale(0.9);
+        box-shadow: 0 0 5px #007bff;
+        z-index: -1;
+    }
+
+.button-container {
+    margin-top: 20px;
+}
+
+.btn-next {
+    max-width: 400px;
+    background-color: #ff66b2;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+}
+
+    .btn-next:hover {
+        background-color: #ff3385;
+    }
+
+.formlabel {
+    padding: 0;
+    float: left;
+    margin: 0;
+    margin-top: 30px;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+    .options ul {
+        flex-direction: column;

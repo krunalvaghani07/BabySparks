@@ -45,5 +45,9 @@ namespace BabySparksUIComponents.Components.Pages
             || dc.LastName.ToLower().Contains(namesearch.ToLower())).ToList();
             StateHasChanged();
         }
+        void NavigateToProfile(string id)
+        {
+            Navigation.NavigateTo($"/profile?profileId={id}");
+        }
     }
 }

@@ -1,0 +1,162 @@
+﻿@page "/profile"
+@using BabySparksSharedClassLibrary.Models
+@inject IFirebaseDataAccess firebaseDataAccess
+@inject NavigationManager NavigationManager
+@inject AppState AppState
+
+<div class="profile-container">
+    <div class="profile-header">
+        <div class="search-bar">
+            <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
+        </div>
+    </div>
+    <div class="profile-content">
+        <div class="profile-image-container">
+            <div class="card-body" style="position: relative; width: 150px; height: 150px; margin-left: auto; margin-right: auto;">
+                @if (user.ProfileImageUrl != null)
+                {
+                    <img id="previewImg" src="@user.ProfileImageUrl" style="width: 100%; height: 100%; border-radius: 50%;" />
+                }
+                else
+                {
+                    <img id="previewImg" src="/_content/BabySparksUIComponents/images/profile.png" style="width: 100%; height: 100%; border-radius: 50%;" />
+                }
+               @*  <InputFile accept="image/*" OnChange="HandleFileSelected" id="capturedimage" style="display:none;" capture />
+                <InputFile accept="image/*" OnChange="HandleFileSelected" id="uploadimage" style="display:none;" />
+                <button class="btn btn-secondary" id="captureimageicon" type="button" @onclick="()=>OpenCamera()" style="position: absolute; bottom: 10px; right: 10px; border-radius: 50%; padding: 10px;">
+                    <span class="fa fa-camera fa-lg"></span>
+                </button> *@
+            </div>
+        </div>
+        <EditForm Model="user" OnValidSubmit="SaveUser">
+             @if (user.userType != BabySparksSharedClassLibrary.Enums.UserType.DayCare)
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input class="form-control mt-3" id="name" disabled="@isDisable" placeholder="Enter your First Name" @bind-value="user.FirstName" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input class="form-control mt-3" id="name" disabled="@isDisable" placeholder="Enter your Last Name" @bind-value="user.LastName" required />
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input class="form-control mt-3" id="name" disabled="@isDisable" placeholder="Enter your DayCare Name" @bind-value="daycare.DayCareName" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <textarea class="form-control mt-3" id="name" disabled="@isDisable" placeholder="Enter your DayCare Desctiption" @bind="daycare.Description" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input class="form-control mt-3" id="name" disabled="@isDisable" placeholder="What Services your daycare provide" @bind-value="daycare.ServiceProvided" required />
+                    </div>
+                </div>
+            }
+
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <input class="form-control mt-3" id="phone" disabled="@isDisable" placeholder="Enter your Phone" @bind-value="user.PhoneNumber" required />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <RadzenTextBox class="form-control mt-3" disabled="@isDisable" Name="BusinessAddress1" @bind-Value="user.Address" required />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <input class="form-control mt-3" id="city" disabled="@isDisable" placeholder="Enter your City" @bind-value="user.City" required />
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4 offset-md-4">
+                    <input class="form-control mt-3" id="zCode" disabled="@isDisable" placeholder="Enter your Zip Code" @bind-value="user.PinCode" required />
+                </div>
+
+            </div>
+            @if (user.userType == BabySparksSharedClassLibrary.Enums.UserType.Nanny)
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <textarea class="form-control mt-3" disabled="@isDisable" id="name" placeholder="Tell use something about you self" @bind="nanny.Bio" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input type="number" class="form-control mt-3" disabled="@isDisable" id="name" placeholder="How much you charge hourly" @bind-value="nanny.HourlyCharges" required />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4 offset-md-4">
+                        <input type="number" class="form-control mt-3" disabled="@isDisable" id="name" placeholder="How much Experience do you have?" @bind-value="nanny.Experience" required />
+                    </div>
+                </div>
+            }
+        </EditForm>
+
+    </div>
+</div>
+@if (isSidebarOpen)
+{
+    <BabySparksUIComponents.SubComponent.Sidebar OnClose="CloseSidebar"></BabySparksUIComponents.SubComponent.Sidebar>
+}
+
+@code{
+    bool isSidebarOpen = false;
+    bool isDisable = true;
+
+    private User user = new User();
+    private DayCare daycare = new DayCare();
+    private BabySparksSharedClassLibrary.Models.Nanny nanny = new BabySparksSharedClassLibrary.Models.Nanny();
+    private Parent parent = new Parent();
+    string profileId = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+        profileId = AppState.user.Id;
+        if (queryParams.TryGetValue("profileId", out var id))
+        {
+            if(profileId != id && id != "")
+            {
+                profileId = id;
+            }
+        }
+        user = await firebaseDataAccess.GetUser(profileId);
+        if (user.userType == BabySparksSharedClassLibrary.Enums.UserType.DayCare)
+        {
+            daycare = user as DayCare;
+        }
+        else if (user.userType == BabySparksSharedClassLibrary.Enums.UserType.Nanny)
+        {
+            nanny = user as BabySparksSharedClassLibrary.Models.Nanny;
+        }
+        else
+        {
+            parent = user as Parent;
+        }
+        StateHasChanged();
+    }
+
+    async Task OpenSidebarMenu()
+    {
+        isSidebarOpen = true;
+    }
+
+    async Task CloseSidebar()
+    {
+        isSidebarOpen = false;
+    }
+    private async Task SaveUser(){
+
+    }
+}
