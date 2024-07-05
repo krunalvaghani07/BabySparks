@@ -26,8 +26,8 @@ namespace BabySparksUIComponents.SubComponent
         }
         protected override async Task OnInitializedAsync()
         {
-            dayCaresInCity = (List<DayCare>)await firebaseDataAccess.GetDaycareInCity(AppState.user.City);
-            nanniesInCity = (List<Nanny>)await firebaseDataAccess.GetNanniesInCity(AppState.user.City);
+            dayCaresInCity = (List<DayCare>)await firebaseDataAccess.GetDaycareInCity(AppState.user.City.ToLower());
+            nanniesInCity = (List<Nanny>)await firebaseDataAccess.GetNanniesInCity(AppState.user.City.ToLower());
         }
         void NavigateToMessages(string id)
         {

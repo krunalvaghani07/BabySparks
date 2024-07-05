@@ -297,7 +297,7 @@ namespace BabySparksSharedClassLibrary.Repository
                 CollectionReference colRef = fireStoreDb.Collection("user");
                 Query query = colRef.WhereEqualTo("City", city)
                     .WhereEqualTo("userType", UserType.DayCare);
-                
+
                 QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
                 List<DayCare> daycares = new List<DayCare>();
                 foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
@@ -347,7 +347,63 @@ namespace BabySparksSharedClassLibrary.Repository
                 throw;
             }
         }
+        public async Task<IEnumerable<DayCare>> GetDaycares()
+        {
+            try
+            {
 
+                CollectionReference colRef = fireStoreDb.Collection("user");
+                Query query = colRef
+                    .WhereEqualTo("userType", UserType.DayCare);
+
+                QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+                List<DayCare> daycares = new List<DayCare>();
+                foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
+                {
+                    if (documentSnapshot.Exists)
+                    {
+                        DayCare daycare = documentSnapshot.ConvertTo<DayCare>();
+                        daycare.DocId = documentSnapshot.Id;
+                        daycares.Add(daycare);
+                    }
+                }
+
+                // Return the list of daycares
+                return daycares;
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public async Task<IEnumerable<Nanny>> GetNannies()
+        {
+
+            try
+            {
+                CollectionReference colRef = fireStoreDb.Collection("user");
+                Query query = colRef.WhereEqualTo("userType", UserType.Nanny);
+
+                QuerySnapshot querySnapshot = await query.GetSnapshotAsync();
+                List<Nanny> nannies = new List<Nanny>();
+                foreach (DocumentSnapshot documentSnapshot in querySnapshot.Documents)
+                {
+                    if (documentSnapshot.Exists)
+                    {
+                        Nanny nanny = documentSnapshot.ConvertTo<Nanny>();
+                        nanny.DocId = documentSnapshot.Id;
+                        nannies.Add(nanny);
+                    }
+                }
+
+                // Return the list of nannies
+                return nannies;
+            }
+            catch
+            {
+                throw;
+            }
+        }
         public async Task<Parent> GetParent(string id)
         {
             try

@@ -2,16 +2,16 @@
 
 <div class="search-bar">
     <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
-    <input type="text" class="mt-3" placeholder="Search Nanies here">
+    <input type="text" class="mt-3" placeholder="Search Nannies here" @bind="namesearch" @bind:event="oninput" @bind:after="NameChanged">
     <div>
-        <input type="text" class="mt-3" placeholder="Location (City)" @bind-value="location">
+        <input type="text" class="mt-3" placeholder="Location (City)" @bind="location" @bind:event="oninput" @bind:after="LocationChanged">
     </div>
     
 </div>
 
 <div class="babysitters-container">
     <div class="babysitters-nearby slider">
-        @foreach(var nanny in nannies)
+        @foreach (var nanny in searchnannies)
         {
             <div class="profile-card">
                 <img src="/_content/BabySparksUIComponents/images/profile.png" alt="Profile Picture" class="profile-image" />

@@ -12,10 +12,11 @@
     {
         <div class="col-md-12">
             <div class="chat-container">
-                <div class="search-bar">
-                    <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
-                </div>
+                
                 <div class="chat-header">
+                    <div class="search-bar">
+                        <span class="fa fa-bars" @onclick="OpenSidebarMenu"></span>
+                    </div>
                     <h3 class="box-title">@chatName</h3>
                     <div class="box-tools pull-right">
                         <button type="button" @onclick="() =>ToggleMessageBox(selectedUser.Id)" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>

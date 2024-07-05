@@ -110,7 +110,7 @@ namespace BabySparksUIComponents.Components.Pages
                         daycare.Address = user.Address;
                         daycare.Id = user.Id;
                         daycare.Email = user.Email;
-                        daycare.City = user.City;
+                        daycare.City = user.City.ToLower();
                         daycare.PhoneNumber = user.PhoneNumber;
                         daycare.PinCode = user.PinCode;
                         daycare.userType = BabySparksSharedClassLibrary.Enums.UserType.DayCare;
@@ -118,7 +118,7 @@ namespace BabySparksUIComponents.Components.Pages
                         break;
                     case "Parent":
                         parent.Id = user.Id;
-                        parent.City = user.City;
+                        parent.City = user.City.ToLower();
                         parent.Address = user.Address;
                         parent.PhoneNumber = user.PhoneNumber;
                         parent.FirstName = user.FirstName;
@@ -130,7 +130,7 @@ namespace BabySparksUIComponents.Components.Pages
                         break;
                     case "Nanny":
                         nanny.Id = user.Id;
-                        nanny.City = user.City;
+                        nanny.City = user.City.ToLower();
                         nanny.Address = user.Address;
                         nanny.PhoneNumber = user.PhoneNumber;
                         nanny.FirstName = user.FirstName;

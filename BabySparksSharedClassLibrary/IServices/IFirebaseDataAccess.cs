@@ -23,5 +23,7 @@ namespace BabySparksSharedClassLibrary.IServices
         Task AddChild(Child child, string parentId);
         Task<List<Message>> GetMessagesForUser(string id);
         Task AddMessage(Message message);
+        Task<IEnumerable<DayCare>> GetDaycares();
+        Task<IEnumerable<Nanny>> GetNannies();
     }
 }
