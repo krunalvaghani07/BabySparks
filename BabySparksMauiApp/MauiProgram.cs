@@ -36,17 +36,17 @@ namespace BabySparksMauiApp
             builder.Services.AddTransient<IFirebaseDataAccess, FirebaseDataAccessRepository>();
 
             builder.Services.AddSingleton(sp => new HubConnectionBuilder()
-                    .WithUrl($"https://127.0.0.1:7117/chatHub", options =>
+            .WithUrl($"http://192.168.56.1:5156/chatHub", options =>
+            {
+                options.HttpMessageHandlerFactory = _ =>
+                {
+                    return new HttpClientHandler
                     {
-                        options.HttpMessageHandlerFactory = _ =>
-                        {
-                            return new HttpClientHandler
-                            {
-                                ServerCertificateCustomValidationCallback = (message, certificate2, chain, sslPolicyErrors) => true
-                            };
-                        };
-                    })
-                .Build());
+                        ServerCertificateCustomValidationCallback = (message, certificate, chain, sslPolicyErrors) => true
+                    };
+                };
+            })
+            .Build());
             builder.Services.AddScoped<ISignalRService, SignalRService>();
 
 #if DEBUG
