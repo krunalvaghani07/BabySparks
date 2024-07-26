@@ -12,12 +12,15 @@ namespace BabySparksSharedClassLibrary.Models
     public class Child : User
     {
         public int Age {  get; set; }
+        public bool IsPresent {  get; set; }
         [FirestoreProperty]
         public Gender Gender { get; set; }
         [FirestoreProperty]
         public int height { get; set; }
         [FirestoreProperty]
         public int weight { get; set; }
+        [FirestoreProperty]
+        public string DayCareId { get; set; }
         [FirestoreProperty]
         public DateTime DateOfBirth { get; set; } = DateTime.Today.Date;
         [FirestoreProperty]

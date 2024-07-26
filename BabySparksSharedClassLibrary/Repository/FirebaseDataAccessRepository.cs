@@ -476,5 +476,117 @@ namespace BabySparksSharedClassLibrary.Repository
                 throw;
             }
         }
+
+        public async Task<string> FindUserIdByChildIdAsync(string childId)
+        {
+            Query userQuery = fireStoreDb.Collection("user");
+            QuerySnapshot userQuerySnapshot = await userQuery.GetSnapshotAsync();
+
+            foreach (DocumentSnapshot userDocSnapshot in userQuerySnapshot.Documents)
+            {
+                CollectionReference childrenCollection = userDocSnapshot.Reference.Collection("children");
+                DocumentSnapshot childDocSnapshot = await childrenCollection.Document(childId).GetSnapshotAsync();
+
+                if (childDocSnapshot.Exists)
+                {
+                    // Found the user who has this child ID
+                    return userDocSnapshot.Id;
+                }
+            }
+
+            // If no user was found with the given child ID
+            return null;
+        }
+        public async Task<List<Enrollment>> GetEnrollments(string daycareId)
+        {
+            DocumentReference docRef = fireStoreDb.Collection("user").Document(daycareId);
+
+            CollectionReference childrenColRef = docRef.Collection("enrollment");
+
+            QuerySnapshot snapshot = await childrenColRef.GetSnapshotAsync();
+            List<Enrollment> enrolledChildren = new List<Enrollment>();
+            foreach (DocumentSnapshot document in snapshot.Documents)
+            {
+                if (document.Exists)
+                {
+                    Enrollment child = document.ConvertTo<Enrollment>();
+                    child.DocId = document.Id;
+                    enrolledChildren.Add(child);
+                }
+            }
+            return enrolledChildren;
+        }
+        public async Task<List<Child>> GetEnrolledChildrens(string daycareId)
+        {
+            try
+            {
+                List<Enrollment> enrolledChildren = await this.GetEnrollments(daycareId);
+
+                List<Child> children = new List<Child>();
+
+                foreach (var child in enrolledChildren)
+                {
+                    DocumentReference docRefChild = fireStoreDb.Collection("user").Document(child.ParentId);
+                    CollectionReference childColRef = docRefChild.Collection("children");
+                    // Retrieve all documents from the "children" subcollection
+                    QuerySnapshot snapshotChild = await childColRef.GetSnapshotAsync();
+                    foreach (DocumentSnapshot document in snapshotChild.Documents)
+                    {
+                        if (document.Exists)
+                        {
+                            Child childd = document.ConvertTo<Child>();
+                            childd.DocId = document.Id;
+                            if(child.ChildId == childd.DocId)
+                            {
+                                children.Add(childd);
+                            }
+                            
+                        }
+                    }
+
+                }
+
+                return children;
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as necessary
+                throw new Exception("Error retrieving children from Firestore", ex);
+            }
+        }
+
+        public async Task EnrollChildren(Enrollment enrollment, string dayCareId)
+        {
+            enrollment.ParentId = await this.FindUserIdByChildIdAsync(enrollment.ChildId);
+            if(enrollment.ParentId == null)
+            {
+                return;
+            }
+            else
+            {
+                try
+                {
+                    DocumentReference docRef = fireStoreDb.Collection("user").Document(dayCareId);
+                    CollectionReference colref = docRef.Collection("enrollment");
+                    enrollment.EnrollmentDate = DateTime.UtcNow.Date;
+
+                    // Get reference to the specific child document
+                    DocumentReference childDocRef = fireStoreDb.Collection("user").Document(enrollment.ParentId).Collection("children").Document(enrollment.ChildId);
+                    // Prepare the update with the new or modified property
+                    Dictionary<string, object> updates = new Dictionary<string, object>
+                    {
+                        { "DayCareId", dayCareId }
+                    };
+
+                    // Update the document
+                    await childDocRef.SetAsync(updates, SetOptions.MergeAll);
+                    await colref.AddAsync(enrollment);
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
     }
 }

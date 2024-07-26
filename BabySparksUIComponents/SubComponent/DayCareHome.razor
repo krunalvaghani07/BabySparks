@@ -1,15 +1,22 @@
-﻿<div class="container">
-    <div class="row">
-        <div class="col-sm-4 m-4">
-            <button type="button" class="btn btn-primary">Enroll Children</button>
+﻿@using BabySparksSharedClassLibrary.Models
+<div class="container">
+    <div class="row" style="margin-top:15px;">
+        <div class="col-4">
+            <button type="button" class="btn btn-primary" @onclick="ToggleEnrollChildModal">Enroll Children</button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-success" @onclick="ToggleAnnouncement">Post Announcement</button>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-warning" @onclick="ToggleAttendanceMode">Mark Attendance</button>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-top:15px;">
         <div class="col-sm-4">
             <div class="card">
                 <div class="card-header text-center">
                     Total Enrolled Children
-                    <div class="display-4">25</div>
+                    <div class="display-4">@enrolledChildren.Count</div>
                 </div>
 
             </div>
@@ -18,7 +25,7 @@
             <div class="card">
                 <div class="card-header text-center">
                     Total Present Children
-                    <div class="display-4">21</div>
+                    <div class="display-4">@presentChildrenCount</div>
                 </div>
 
             </div>
@@ -28,9 +35,88 @@
             <div class="card">
                 <div class="card-header text-center">
                     Total Absent Children
-                    <div class="display-4">4</div>
+                    <div class="display-4">@absentChildrenCount</div>
                 </div>
             </div>
         </div>
     </div>
+    @if (enrolledChildren.Count > 0)
+    {
+        <div class="col-sm-12" style="margin-top:15px;">
+            <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                            Data="@enrolledChildren" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or" SelectionMode="DataGridSelectionMode.Single">
+                <Columns>
+                    @if (isAttendanceMode)
+                    {
+                        <RadzenDataGridColumn Frozen="true" Title="Present" TextAlign="TextAlign.Center">
+                            <Template Context="data">
+                                <input type="checkbox" @bind="data.IsPresent" />
+                            </Template>
+                        </RadzenDataGridColumn>
+                    }
+                    <RadzenDataGridColumn Title="Photo" Frozen="true" Sortable="false" Filterable="false" Width="80px" TextAlign="TextAlign.Center">
+                        <Template Context="data">
+                            <RadzenImage Path="/_content/BabySparksUIComponents/images/children.png" class="rz-gravatar" AlternateText="child photo" />
+                        </Template>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn Property="@nameof(Child.FirstName)" Title="First Name" />
+                    <RadzenDataGridColumn Property="@nameof(Child.LastName)" Title="Last Name" />
+                    <RadzenDataGridColumn Property="@nameof(Child.height)" Title="Height(CM)" />
+                    <RadzenDataGridColumn Property="@nameof(Child.weight)" Title="Weight(KG)" />
+                    <RadzenDataGridColumn Property="@nameof(Child.Gender)" Title="Gender" />
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+        @if (isAttendanceMode)
+        {
+            <div class="col-sm-12" style="margin-top:15px;">
+                <button type="button" class="btn btn-primary" @onclick="SaveAttendance">Save Attendance</button>
+            </div>
+        }
+    }
+
 </div>
+@if (IsEnrollledPopupOpen)
+{
+    <div class="modal fade" id="sidebar-left" tabindex="-1" role="dialog" style="display: block; ">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Enter Children Id</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="ToggleEnrollChildModal">
+                        <span aria-hidden="true" class="fa fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input class="form-control" id="name" placeholder="Enter Children Id" @bind-value="ChildrenId" required />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="ToggleEnrollChildModal">Close</button>
+                    <button type="button" class="btn btn-primary" @onclick="EnrollChild">Enroll</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (IsAnnouncementPopupOpen)
+{
+    <div class="modal fade" id="sidebar-left" tabindex="-1" role="dialog" style="display: block; ">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:400px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Post an Announcement</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="ToggleAnnouncement">
+                        <span aria-hidden="true" class="fa fa-times"></span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <textarea class="form-control" id="name" placeholder="Post an announcemnt to parent" @bind="Announcement" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="ToggleAnnouncement">Close</button>
+                    <button type="button" class="btn btn-primary" @onclick="PostAnnouncement">Post</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}

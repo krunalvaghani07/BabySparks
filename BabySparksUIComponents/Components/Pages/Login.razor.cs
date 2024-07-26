@@ -37,6 +37,7 @@ namespace BabySparksUIComponents.Components.Pages
                 storageService.SetValue("user", AppState.user);
                 authStateProvider.ManageUser();
                 Navigation?.NavigateTo("/", true);
+
                 await base.OnInitializedAsync();
             }
             catch(Exception ex)
@@ -45,5 +46,6 @@ namespace BabySparksUIComponents.Components.Pages
             }
             
         }
+        
     }
 }

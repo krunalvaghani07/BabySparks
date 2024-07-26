@@ -32,6 +32,10 @@ namespace BabySparksSharedClassLibrary.Service
                 {
                     OnMessageReceived?.Invoke(message);
                 });
+                _hubConnection.On<Message>(_appState.user.DocId, message =>
+                {
+                    OnMessageReceived?.Invoke(message);
+                });
             }
             else
             {
